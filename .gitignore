@@ -1,0 +1,23 @@
+# Claude Code local settings (may contain auto-approved permissions)
+.claude/settings.local.json
+
+# Environment and secrets
+.env
+.env.*
+*.key
+*.pem
+*.secret
+
+# Obsidian app config (not needed in repo)
+.obsidian/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node modules (if any plugins installed)
+node_modules/
+
+# Backup files
+*.bak
+*.tmp

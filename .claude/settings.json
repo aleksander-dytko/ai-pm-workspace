@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Edit",
+      "Write",
+      "Glob",
+      "Grep",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(ls *)",
+      "Bash(mkdir *)",
+      "Bash(mv *)",
+      "mcp__*",
+      "ListMcpResourcesTool",
+      "ReadMcpResourceTool"
+    ],
+    "deny": [
+      "Bash(rm *)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"import sys,json; d=json.load(sys.stdin); fp=d.get('file_path','') or d.get('tool_input',{}).get('file_path',''); print('REMINDER: Verify naming convention (Meetings -> YYYY-MM-DD - [Title].md | Loose Notes/Work -> YYYY-MM-DD - [Type] - [Title].md) and link this file in today\\'s journal under ## Notes.') if any(x in fp for x in ['/Meetings/','/Loose Notes/Work/']) else None\""
+          }
+        ]
+      }
+    ]
+  }
+}
