@@ -105,13 +105,10 @@ You have access to MCP servers configured in your Claude Code environment:
 ### P-Tasks system
 **Purpose**: Weekly priorities tracked in `Dashboard/Weekly P-Tasks.md`
 **Priority levels**: P1 (critical) -> P5 (optional)
-**Status markers**:
-- `✅` - Completed
+**Status markers** (added during Friday review):
+- `✅` - Done
 - `🔄` - Carried over to next week
-- `⭕` - Deprioritized/moved
-- `🔴` - Not started
-- `🟡` - Partial progress
-- `🟢` - Done
+- `❌` - Not done / deprioritized
 
 ### Tags
 - `DailyNote` - Daily journal entries

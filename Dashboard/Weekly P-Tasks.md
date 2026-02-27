@@ -18,12 +18,9 @@ Each week gets a header with the Monday date. Tasks are listed P1 (critical) thr
 - **P5**: Optional, time permitting (0-1 items)
 
 **Status markers** (added during Friday review):
-- ✅ Completed
+- ✅ Done
 - 🔄 Carried over to next week
-- ⭕ Deprioritized/moved
-- 🔴 Not started
-- 🟡 Partial progress
-- 🟢 Done
+- ❌ Not done / deprioritized
 
 ---
 
@@ -32,13 +29,12 @@ Each week gets a header with the Monday date. Tasks are listed P1 (critical) thr
 
 # [[06-01-2026]]
 ✅ P1: Ship API documentation for v2 endpoints
-🟡 P2: Review and finalize Q1 roadmap with engineering
+🔄 P2: Review and finalize Q1 roadmap with engineering - needs one more pass
 ✅ P3: Process customer feedback from December interviews
-⭕ P4: Draft blog post on API design patterns
-🔴 P5: Clean up Jira backlog
+❌ P4: Draft blog post on API design patterns
+❌ P5: Clean up Jira backlog
 
 **Notes:**
-- Q1 roadmap needs one more review pass (carried to next week)
 - Customer feedback revealed 3 new feature requests - logged in tracker
 
 -->
