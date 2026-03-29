@@ -12,7 +12,7 @@ Step-by-step instructions to get your AI PM Workspace running.
 
 ### Optional Obsidian Plugins
 
-The daily note template includes an optional Todoist query block. To render it, install the [Obsidian Todoist Plugin](https://github.com/jamiebrynes7/obsidian-todoist-plugin). Without it, the query block will show as raw text - you can remove it from the template if you don't use Todoist.
+The daily note template includes an optional Todoist query block that is commented out by default. To use it, install the [Obsidian Todoist Plugin](https://github.com/jamiebrynes7/obsidian-todoist-plugin) and then uncomment the block in the daily note template by removing the surrounding `<!-- ... -->` comment markers. If you don't use Todoist or don't install the plugin, you can leave the block commented out or delete it from the template.
 
 ## Step 1: Clone and Open
 
