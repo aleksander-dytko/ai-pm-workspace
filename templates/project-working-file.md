@@ -1,6 +1,7 @@
 ---
 created: YYYY-MM-DD
-tags: [Project]
+tags:
+  - Project
 status: Active
 ---
 
