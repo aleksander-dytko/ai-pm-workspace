@@ -170,7 +170,7 @@ Update all files based on collected answers:
   - If "English only": keep as-is
   - If "Mixed": replace the comment block with active rules specifying the personal language from Phase 2
 - MCP servers section:
-  - Todoist: update `[YOUR PROJECT]` and `[YOUR SECTION]` with actual names (both in the MCP section AND the Todoist Integration section at the bottom)
+  - Todoist: update `[YOUR PROJECT]`, `[YOUR ACTIVE SECTION]`, and `[YOUR BACKLOG SECTION]` with actual names (in the MCP section, the Todoist Integration section at the bottom, and `shared/todoist-config.md`)
   - GitHub: update `[YOUR REPO]` entries with repos from Phase 4b. If multiple repos, add additional entries
   - Optional MCPs: uncomment the optional MCP template and fill in for any MCPs from Phase 4c
   - If a tool was not configured, add a comment: `<!-- Not configured. Run /personalize to set up. -->`
@@ -191,8 +191,10 @@ Update all files based on collected answers:
 **3. shared/todoist-config.md** — If Todoist configured in Phase 4:
 - `[YOUR PROJECT NAME]` → project name
 - `[YOUR PROJECT ID]` → project ID from MCP lookup
-- `[YOUR SECTION NAME]` → section name
-- `[YOUR SECTION ID]` → section ID from MCP lookup
+- `[YOUR ACTIVE SECTION NAME]` → active section name
+- `[YOUR ACTIVE SECTION ID]` → active section ID from MCP lookup
+- `[YOUR BACKLOG SECTION NAME]` → backlog section name (or leave blank if not configured)
+- `[YOUR BACKLOG SECTION ID]` → backlog section ID (or leave blank if not configured)
 - Also update the JSON template at the bottom
 
 **4. Dashboard/people-profiles.md** — If people provided in Phase 5:
@@ -212,7 +214,7 @@ Workspace personalized!
 
 Updated:
 - CLAUDE.md (your identity, company context, MCP config)
-[if Todoist] - Todoist config (project: [name], section: [name])
+[if Todoist] - Todoist config (project: [name], active section: [name], backlog section: [name])
 [if GitHub] - GitHub repos ([N] repositories configured)
 [if people] - People profiles ([N] profiles created)
 [if mixed lang] - Language rules ([language] for personal, English for work)
