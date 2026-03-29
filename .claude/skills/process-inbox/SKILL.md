@@ -31,10 +31,11 @@ Read the content of each file and classify based on patterns:
 | General work note, idea, draft | `Loose Notes/Work/` | `YYYY-MM-DD - [Title].md` |
 
 **Classification hints**:
-- If the file has frontmatter with `tags: [MeetingNotes]` -> Meetings/
-- If the file has frontmatter with `tags: [Project]` -> Projects/
+- If the file's frontmatter tags include `MeetingNotes` -> Meetings/
+- If the file's frontmatter tags include `Project` -> Projects/
 - If the filename contains "meeting" or "sync" or "standup" -> Meetings/
 - If the filename contains "decision" -> Loose Notes/Work/ with Decision prefix
+- When adding or editing frontmatter, prefer YAML list-style tags (e.g., `tags:` with `  - TagName` on the next line)
 - When in doubt, default to Loose Notes/Work/
 
 ### Step 3: Present routing table
@@ -64,24 +65,23 @@ Wait for user confirmation. Accept:
 For each confirmed item:
 
 1. **If routing to Meetings/ or Loose Notes/Work/**:
-   - Read the file content
-   - Create new file at destination with proper naming
-   - Ensure the file has appropriate frontmatter (add if missing):
-     - Meetings/: `tags: [MeetingNotes]`, `date: YYYY-MM-DD`
-     - Loose Notes/Work/: `tags: [LooseNotes]`, `date: YYYY-MM-DD`
-   - Delete the original from Inbox/
+   - Determine the destination path and new filename
+   - Move the file using Bash `mv "Inbox/[filename]" "[destination/new-filename]"` (avoids a separate copy + delete step)
+   - Ensure the moved file has appropriate frontmatter (add if missing using the Edit tool):
+     - Meetings/: `tags:` list including `MeetingNotes`, `date: YYYY-MM-DD`
+     - Loose Notes/Work/: `tags:` list including `LooseNotes`, `date: YYYY-MM-DD`
 
 2. **If routing to Projects/ (append)**:
    - Read the inbox file content
    - Read the target project file
    - Append the new content under the "Notes" section of the project file
    - Add a date header: `### YYYY-MM-DD - [Brief Title]`
-   - Delete the original from Inbox/
+   - Move the original inbox file to `Inbox/Archive/` using Bash `mv` (create the Archive/ subfolder if needed)
 
 3. **If routing to Projects/ (new project)**:
    - Create new file using `templates/project-working-file.md` template
    - Fill in the content from the inbox note
-   - Delete the original from Inbox/
+   - Move the original inbox file to `Inbox/Archive/` using Bash `mv`
 
 4. **Link each moved file in today's journal** under the "Notes" section
 
