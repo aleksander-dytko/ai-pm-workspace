@@ -11,7 +11,7 @@
 **Language**: English
 <!-- If you work in multiple languages, specify rules here. Example:
 - English: Work content, meetings, decisions, communications
-- [Other language]: Personal reflections, emotional content
+- [Other language]: Personal notes, non-work content
 - NEVER mix languages within a note
 -->
 
@@ -44,7 +44,7 @@ You have access to MCP servers configured in your Claude Code environment:
 
 ### Todoist MCP
 **Use for**: Task management - creating, reading, completing tasks
-**Work project structure**: Tasks go to the "[YOUR PROJECT]" project with a "[YOUR SECTION]" section
+**Work project structure**: Tasks go to the "[YOUR PROJECT]" project with "[YOUR ACTIVE SECTION]" (current) and "[YOUR BACKLOG SECTION]" (deferred) sections
 **Key operations**:
 - Create follow-up tasks from meetings/decisions
 - Read current workload for weekly planning
@@ -70,8 +70,7 @@ You have access to MCP servers configured in your Claude Code environment:
 - Referencing APIs and features
 
 ### Notion MCP
-**Use for**: Personal/private notes
-**Restriction**: Personal reflection only, never in work skills
+**Use for**: Personal notes or additional context storage
 
 -->
 
@@ -86,10 +85,12 @@ You have access to MCP servers configured in your Claude Code environment:
 ├── Dashboard/             # Living documents (updated frequently)
 │   ├── Weekly P-Tasks.md  # Weekly priority tasks (P1-P5)
 │   └── people-profiles.md # Stakeholder communication profiles
+├── Inbox/                 # Quick-capture notes, processed via /process-inbox
 ├── journals/              # Daily notes (YYYY/MM-Month/DD-MM-YYYY.md)
 ├── Loose Notes/
 │   └── Work/              # Work notes, drafts, decisions
 ├── Meetings/              # Meeting notes
+├── Projects/              # Ongoing project tracking files
 ├── templates/             # Note templates
 └── CLAUDE.md              # This file
 ```
@@ -101,6 +102,8 @@ You have access to MCP servers configured in your Claude Code environment:
 | Daily note | `DD-MM-YYYY.md` | `14-02-2026.md` | `journals/2026/02-February/` |
 | Work note | `YYYY-MM-DD - Title.md` | `2026-02-14 - Decision - API scope.md` | `Loose Notes/Work/` |
 | Meeting note | `YYYY-MM-DD - Meeting description.md` | `2026-02-14 - Customer sync.md` | `Meetings/` |
+| Project file | `[project-name].md` | `api-redesign.md` | `Projects/` |
+| Inbox note | Any name (temporary) | `quick-notes.md` | `Inbox/` |
 
 ### P-Tasks system
 **Purpose**: Weekly priorities tracked in `Dashboard/Weekly P-Tasks.md`
@@ -122,8 +125,9 @@ You have access to MCP servers configured in your Claude Code environment:
 
 | Frequency | Tasks | Skills to use |
 |-----------|-------|---------------|
-| **Daily** | Morning planning, meeting notes, decisions, communications | `/today`, `/meeting`, `/decision`, `/communicate` |
-| **Weekly** | P-Tasks planning, initiative status checks | `/weekly-plan` (build your own) |
+| **Daily** | Morning planning, meeting notes, decisions, communications, inbox processing | `/today`, `/meeting`, `/decision`, `/communicate`, `/process-inbox`, `/end-of-day` |
+| **Weekly** | P-Tasks planning, initiative status checks | `/weekly-plan` |
+| **As needed** | Slack thread processing | `/slack-thread` |
 | **Monthly** | Reflection, progress review | Custom agent (build your own) |
 
 ---
@@ -157,6 +161,8 @@ You have access to MCP servers configured in your Claude Code environment:
 
 ## Available Skills
 
+### Core Skills
+
 | Skill | Command | When to use | MCPs used |
 |-------|---------|-------------|-----------|
 | **Plan Today** | `/today` | Morning daily planning and journal fill | Todoist |
@@ -165,13 +171,22 @@ You have access to MCP servers configured in your Claude Code environment:
 | **Draft Communication** | `/communicate` | Writing Slack messages, emails, updates | - |
 | **Personalize** | `/personalize` | Initial setup - customize this workspace to your needs | - |
 
+### Extended Skills
+
+| Skill | Command | When to use | MCPs used |
+|-------|---------|-------------|-----------|
+| **Plan Week** | `/weekly-plan` | Sunday/Monday weekly planning with overplanning challenge | Todoist |
+| **End of Day** | `/end-of-day` | Evening journal close-out and tomorrow prep | Todoist |
+| **Process Slack Thread** | `/slack-thread` | Analyze pasted Slack conversations | Todoist |
+| **Process Inbox** | `/process-inbox` | Route Inbox/ notes to correct destination folders | - |
+
 ### Skills you can build (examples in README):
 
 | Skill | Purpose |
 |-------|---------|
-| `/weekly-plan` | Sunday/Monday weekly planning with overplanning challenge |
 | `/initiative` | Track initiative status from external repos |
-| `/reflect` | Personal reflection agent (privacy-bounded) |
+| `/retro` | Sprint or quarterly retrospective from journals and meeting notes |
+| `/standup` | Generate daily standup summary from journal and plan |
 
 ---
 
@@ -219,7 +234,8 @@ Daily notes follow the template in `templates/daily-note.md`:
 
 Tasks created by Claude skills go to:
 - **Project**: "[YOUR PROJECT]"
-- **Section**: "[YOUR SECTION]"
+- **Active section**: "[YOUR ACTIVE SECTION]" (current tasks and weekly P-tasks)
+- **Backlog section**: "[YOUR BACKLOG SECTION]" (deferred tasks, triaged during /weekly-plan)
 - **Priority**: Set based on urgency (P1-P4 in Todoist)
 
 See `.claude/skills/shared/todoist-config.md` for project and section IDs.
@@ -239,3 +255,7 @@ See `.claude/skills/shared/todoist-config.md` for project and section IDs.
 ### Decision documentation
 **Pattern**: Decisions happen in Slack or meetings but aren't always documented.
 **Solution**: `/decision` skill creates structured decision notes, links them in the daily journal.
+
+### Inbox capture
+**Pattern**: During the day, ideas, meeting fragments, and quick notes need a place to land without friction.
+**Solution**: Drop notes in `Inbox/` with any name. Run `/process-inbox` to classify and route them to Meetings/, Loose Notes/Work/, or Projects/ with proper naming and journal linking.
