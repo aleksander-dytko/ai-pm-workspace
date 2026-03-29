@@ -26,7 +26,7 @@ Used by `/weekly-plan` for triaging deferred tasks. Optional - if you don't use 
 ## Task Creation Rules
 
 - All tasks created by skills go to the project and active section above
-- Set priority based on urgency: P1 (urgent), P2 (high), P3 (medium), P4 (default)
+- Set priority based on urgency using the shared mapping (P1-P5 + Stretch); see `shared/todoist-patterns.md` for details
 - Two-step creation for parent/child tasks: create parents first, then children with `parentId`
 - Batch size: max 3-5 tasks per call to avoid HTTP 400 errors
 
