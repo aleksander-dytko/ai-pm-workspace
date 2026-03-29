@@ -33,6 +33,7 @@ Do ALL of these simultaneously:
 - **Todoist today + overdue**: `mcp__todoist__find-tasks-by-date` with `startDate: "today"`
 - **Todoist inbox**: `mcp__todoist__find-tasks` for tasks without a project
 - **Weekly P-Tasks**: Read `Dashboard/Weekly P-Tasks.md`, extract current week's section
+- **Inbox check**: If `Inbox/` folder exists, count files (excluding `.gitkeep`)
 
 Only AFTER all fetches complete, ask personal questions.
 
@@ -66,6 +67,11 @@ Use yesterday's journal values as hints. This is the only personal question roun
 **2a. Present all fetched data + ask for calendar**
 
 Show pre-fetched data and ask for the calendar:
+
+If Inbox/ has files, add at the top:
+```
+📥 Inbox: [N] unprocessed notes - run /process-inbox to route them
+```
 
 ```
 Data ready - paste your calendar screenshot (and note what to do with overdue/inbox):
@@ -201,7 +207,7 @@ Daily Todoist task priorities:
 | Priority | Max tasks | Todoist value | Description |
 |----------|-----------|---------------|-------------|
 | P1 | 1 | `p1` | THE one most critical task |
-| P2 | 2 | `p1` | High priority |
+| P2 | 2 | `p1` | High priority (same Todoist level as P1 - Todoist has 4 levels vs 5 here) |
 | P3 | 3 | `p2` | Medium priority |
 | P4 | unlimited | `p3`/`p4` | Everything else |
 

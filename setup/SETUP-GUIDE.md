@@ -8,6 +8,11 @@ Step-by-step instructions to get your AI PM Workspace running.
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed (`npm install -g @anthropic-ai/claude-code`)
 - A Claude API key or Claude Pro/Max subscription
 - Git
+- GitHub Copilot subscription (for GitHub MCP - optional, skip if you don't use GitHub for issue tracking)
+
+### Optional Obsidian Plugins
+
+The daily note template includes an optional Todoist query block. To render it, install the [Obsidian Todoist Plugin](https://github.com/jamiebrynes7/obsidian-todoist-plugin). Without it, the query block will show as raw text - you can remove it from the template if you don't use Todoist.
 
 ## Step 1: Clone and Open
 
@@ -74,6 +79,10 @@ Try these skills:
 | `/meeting` | Process raw meeting notes into structured notes |
 | `/decision [topic]` | Make a documented decision |
 | `/communicate [topic + audience]` | Draft a Slack/email message |
+| `/weekly-plan` | Plan your week with P-tasks and overplanning challenge |
+| `/end-of-day` | Close out your day and prep tomorrow |
+| `/slack-thread [paste]` | Process a pasted Slack conversation |
+| `/process-inbox` | Route Inbox/ notes to the right folders |
 
 ## Step 5: Build Your Workflow
 
@@ -84,23 +93,28 @@ The included skills are a starting point. You can:
 3. **Add MCP integrations** - Connect more tools via MCP servers
 4. **Extend CLAUDE.md** - Add more context as your usage matures
 
-### Skill ideas to build yourself
+### Quick-capture with Inbox
 
-- **`/weekly-plan`**: Sunday/Monday weekly planning with P-Tasks
-  - Review last week's completion rate
-  - Analyze calendar for upcoming deadlines
-  - Challenge overplanning (if >7 P-tasks, push back)
-  - Create Todoist tasks with subtasks
+During the day, drop notes in `Inbox/` with any name - no naming conventions needed. When ready, run `/process-inbox` to classify and route them to the right folder:
+
+- Meeting-like notes -> `Meetings/` with proper `YYYY-MM-DD - [Title].md` naming
+- Decisions -> `Loose Notes/Work/` with Decision prefix
+- Project updates -> `Projects/` (appended to existing files or new)
+- Everything else -> `Loose Notes/Work/`
+
+The `/today` and `/end-of-day` skills automatically check for unprocessed Inbox items.
+
+### Skill ideas to build yourself
 
 - **`/initiative`**: Track product initiatives
   - Read status from external repos
   - Update working files in your vault
   - Cross-reference with meeting notes
 
-- **`/reflect`**: Monthly personal reflection (as an agent, not a skill)
-  - Analyze mood/energy patterns from daily journals
-  - Identify recurring themes and burnout signals
-  - Privacy-bounded: only reads personal content
+- **`/retro`**: Sprint or quarterly retrospective
+  - Analyze recent journals and meeting notes for patterns
+  - Summarize wins, blockers, and recurring themes
+  - Generate shareable retrospective summary
 
 ## Architecture Overview
 

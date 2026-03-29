@@ -19,7 +19,10 @@ This is not a plugin or an app. It's a structured Obsidian vault with Claude Cod
 |  - Meeting notes  |    |  /meeting           |    |                   |
 |  - Decisions      |    |  /decision          |    |                   |
 |  - Loose notes    |    |  /communicate       |    |                   |
-|                   |    |                     |    |                   |
+|  - Inbox          |    |  /weekly-plan       |    |                   |
+|  - Projects       |    |  /end-of-day        |    |                   |
+|                   |    |  /slack-thread      |    |                   |
+|                   |    |  /process-inbox     |    |                   |
 +-------------------+    +---------------------+    +-------------------+
         ^                         |
         |       writes back       |
@@ -34,7 +37,9 @@ This is not a plugin or an app. It's a structured Obsidian vault with Claude Cod
 
 ## What's Included
 
-### 4 Ready-to-Use Skills
+### 8 Ready-to-Use Skills
+
+#### Core Skills
 
 | Skill | Command | What it does |
 |-------|---------|-------------|
@@ -43,20 +48,31 @@ This is not a plugin or an app. It's a structured Obsidian vault with Claude Cod
 | **Make Decision** | `/decision [topic]` | Gathers context from your vault and GitHub, presents options with trade-offs, creates documented decision |
 | **Draft Communication** | `/communicate [topic + audience]` | Adapts tone to audience (engineering/leadership/customers), uses your people profiles |
 
+#### Extended Skills
+
+| Skill | Command | What it does |
+|-------|---------|-------------|
+| **Plan Week** | `/weekly-plan` | Weekly P-task planning with Todoist sync, quality checklist, and overplanning challenge |
+| **End of Day** | `/end-of-day` | Evening close-out: fill journal, flag unprocessed meetings/inbox, prep tomorrow |
+| **Process Slack Thread** | `/slack-thread [paste]` | Analyze pasted Slack conversations: extract decisions, draft responses, save notes, create tasks |
+| **Process Inbox** | `/process-inbox` | Route quick-capture notes from Inbox/ to the right folder with proper naming |
+
 ### 1 Onboarding Skill
 
 | Skill | Command | What it does |
 |-------|---------|-------------|
-| **Personalize** | `/personalize` | Interactive setup: configures CLAUDE.md, Todoist IDs, and people profiles for your specific role and company |
+| **Personalize** | `/personalize` | Interactive setup: configures CLAUDE.md, Todoist IDs, folders, and people profiles for your specific role and company |
 
 ### Vault Structure
 
 ```
 ├── Dashboard/             # Living documents (weekly priorities, people profiles)
+├── Inbox/                 # Quick-capture notes (processed via /process-inbox)
 ├── journals/              # Daily notes (YYYY/MM-Month/DD-MM-YYYY.md)
 ├── Meetings/              # Meeting notes
 ├── Loose Notes/Work/      # Decisions, drafts, analysis
-├── templates/             # Note templates for daily, meeting, and loose notes
+├── Projects/              # Ongoing project tracking files
+├── templates/             # Note templates (daily, meeting, loose, inbox, project)
 ├── .claude/skills/        # Claude Code skills
 └── CLAUDE.md              # The "operating system" - tells Claude who you are and how to work
 ```
@@ -68,8 +84,9 @@ This is not a plugin or an app. It's a structured Obsidian vault with Claude Cod
 - [Obsidian](https://obsidian.md/)
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) (`npm install -g @anthropic-ai/claude-code`)
 - Claude API key or Claude Pro/Max subscription
+- GitHub Copilot subscription (for GitHub MCP - optional)
 
-### Setup (5 minutes)
+### Setup (15-20 minutes)
 
 ```bash
 # 1. Clone this repo
@@ -116,9 +133,9 @@ Skills are Markdown files in `.claude/skills/[name]/SKILL.md`. Each skill has:
 
 Ideas for skills you can build:
 
-- **`/weekly-plan`**: Sunday/Monday weekly planning with P-Tasks, Todoist sync, and overplanning detection
 - **`/initiative`**: Track product initiatives by pulling status from external repos
-- **`/reflect`**: Monthly personal reflection agent that analyzes mood/energy patterns from your journals
+- **`/retro`**: Sprint or quarterly retrospective that analyzes recent journals and meeting notes
+- **`/standup`**: Generate daily standup summary from yesterday's journal and today's plan
 
 ### Add MCP Integrations
 
