@@ -88,17 +88,17 @@ If user hasn't shared their calendar:
 
 ### 6. Read Todoist (via MCP) - three buckets
 
-Read all three sources in parallel:
+Read these Todoist sources in parallel, as available based on your configuration:
 
-1. **Inbox** - tasks without a project or section assignment
-2. **This week section** - leftover tasks from previous week (see `shared/todoist-config.md` for section ID)
-3. **Backlog section** - full backlog; flag items older than 4 weeks with no due date as stale
+1. **Inbox** - tasks without a project (MCP filter: `project_id = null`)
+2. **This week section** (if configured) - leftover tasks from previous week (see `shared/todoist-config.md` for section ID)
+3. **Backlog section** (if configured) - full backlog; flag items older than 4 weeks with no due date as stale
 
 Also note: overdue tasks (any project), tasks due this week.
 
 ### 6b. Triage phase - execute immediately, before planning
 
-**Goal**: Inbox empty, This Week and Backlog sections contain only intentional tasks.
+**Goal**: Inbox empty, and any configured "This Week" and "Backlog" sections contain only intentional tasks.
 
 Present a triage table for each bucket:
 
