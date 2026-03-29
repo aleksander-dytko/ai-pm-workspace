@@ -1,6 +1,7 @@
 ---
 created: YYYY-MM-DD
-tags: [Inbox]
+tags:
+  - Inbox
 ---
 
 # Notes
