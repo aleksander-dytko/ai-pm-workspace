@@ -37,7 +37,7 @@ sorting:
 ```
 -->
 
-- [ ] Tasks for today are planned and prioritized.
+- [ ] Tasks for today are planned and prioritized in Todoist.
 
 ---
 ## Notes
