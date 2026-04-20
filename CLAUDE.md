@@ -253,6 +253,12 @@ Adapted from shared PM quality practices. Apply to anything Claude generates in 
 | **Personalize** | `/personalize [quick \| deep]` | Quick (3 min) or deep (10 min) setup. Quick fills identity; deep adds MCP detection, initiatives, and people profiles. |
 | **Guide** | `/guide [module \| next \| reset]` | Interactive 8-module learning path through all the shipped skills. Role-adaptive. Uses sample data in `samples/`. |
 
+### Feedback (1)
+
+| Skill | Command | When to use |
+|-------|---------|-------------|
+| **Report** | `/report [short description]` | File a bug / confusion / feature request / feedback as a GitHub issue on the template repo. Uses GitHub MCP if available; falls back to a pre-filled issue URL. |
+
 ### Skills you can build yourself (examples)
 
 | Skill | Purpose |

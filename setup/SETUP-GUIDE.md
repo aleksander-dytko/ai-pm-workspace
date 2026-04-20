@@ -178,7 +178,7 @@ Skills must be in `.claude/skills/[name]/SKILL.md`. The `SKILL.md` file needs va
 
 ### "I got stuck at step X"
 
-Open an issue on this repo, or run `/report` from within your workspace - the skill opens a GitHub issue with the context pre-filled. (Not yet shipped; expected in v2.1.)
+Open an issue on this repo, or run `/report` from within your workspace - the skill opens a GitHub issue with the context pre-filled.
 
 ## Architecture Overview
 
