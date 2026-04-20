@@ -90,11 +90,16 @@ Priority, due date, and source are all optional.
 |   |-- Weekly P-Tasks.md  # Weekly priorities (P1-P5)
 |   `-- people-profiles.md # Stakeholder communication profiles
 |-- Initiatives/           # Working files for active initiatives (created by /personalize --deep)
+|-- epics/                 # Epic drafts (created by /create-epic)
+|-- research/              # Competitive research, user journeys, personas
+|   |-- personas/          # Persona library (ships with a template + 3 examples)
+|   `-- journeys/          # User journeys (created by /user-journey)
 |-- journals/              # Daily notes (YYYY/MM-Month/DD-MM-YYYY.md)
 |-- Loose Notes/
 |   `-- Work/              # Decisions, drafts, analysis
 |-- Meetings/              # Meeting notes
-|-- templates/             # Note templates
+|-- samples/               # Sample data used by /guide modules
+|-- templates/             # Note templates (daily, meeting, loose, epic, initiative)
 |-- docs/                  # Reference docs (epic lifecycle, optional Todoist sync)
 `-- CLAUDE.md              # This file
 ```
@@ -107,6 +112,10 @@ Priority, due date, and source are all optional.
 | Work note | `YYYY-MM-DD - Title.md` | `2026-02-14 - Decision - API scope.md` | `Loose Notes/Work/` |
 | Meeting note | `YYYY-MM-DD - Meeting description.md` | `2026-02-14 - Customer sync.md` | `Meetings/` |
 | Initiative file | `[initiative-slug].md` | `billing-migration.md` | `Initiatives/` |
+| Epic file | `YYYY-MM-DD - [Title].md` | `2026-04-20 - Unified onboarding dashboard.md` | `epics/` |
+| User journey | `YYYY-MM-DD - [Persona] - [Flow].md` | `2026-04-20 - Dana - First API integration.md` | `research/journeys/` |
+| Competitive research | `YYYY-MM-DD - Competitive - [Topic].md` | `2026-04-20 - Competitive - Onboarding UX.md` | `research/` |
+| Persona | `[persona-name].md` | `example-developer.md` | `research/personas/` |
 
 ### P-Tasks system
 **Purpose**: Weekly priorities tracked in `Dashboard/Weekly P-Tasks.md`.
@@ -123,6 +132,10 @@ P-Tasks go into `Dashboard/Weekly P-Tasks.md`. Their subtasks and standalone tas
 - `LooseNotes` - general notes
 - `MeetingNotes` - meeting records
 - `Initiative` - initiative working files
+- `Epic` - epic drafts
+- `Persona` - persona files in `research/personas/`
+- `Journey` - user journey artifacts
+- `Research` / `Competitive` - competitive and user research notes
 <!-- Add your own tags: people tags (#PersonName), customer tags (#CustomerName), etc. -->
 
 ---
@@ -224,19 +237,28 @@ Adapted from shared PM quality practices. Apply to anything Claude generates in 
 | **Draft Communication** | `/communicate [topic + audience + channel]` | Draft Slack, email, or async update. Tone matches audience. |
 | **Plan Week** | `/weekly-plan` | Weekly P-Tasks planning with overplanning challenge and triage of `Dashboard/tasks.md`. |
 
-### Onboarding (1)
+### Craft (4)
+
+| Skill | Command | When to use |
+|-------|---------|-------------|
+| **Create Epic** | `/create-epic [idea]` | Turn a raw idea into a structured epic draft using `templates/epic-template.md`. Sets stage to Explore. |
+| **User Journey** | `/user-journey [flow]` | Build a persona-grounded journey map using `research/personas/`. Lands in `research/journeys/`. |
+| **Competitive Research** | `/competitive-research [topic]` | Produce a sourced competitive matrix. Every observation cites a source. |
+| **Opportunity-Solution Tree** | `/opportunity-solution-tree [outcome]` | Teresa Torres discovery framework. Ported from [phuryn/pm-skills](https://github.com/phuryn/pm-skills) under MIT; see the skill's `ATTRIBUTION.md`. |
+
+### Onboarding (2)
 
 | Skill | Command | When to use |
 |-------|---------|-------------|
 | **Personalize** | `/personalize [quick \| deep]` | Quick (3 min) or deep (10 min) setup. Quick fills identity; deep adds MCP detection, initiatives, and people profiles. |
+| **Guide** | `/guide [module \| next \| reset]` | Interactive 8-module learning path through all the shipped skills. Role-adaptive. Uses sample data in `samples/`. |
 
 ### Skills you can build yourself (examples)
 
 | Skill | Purpose |
 |-------|---------|
-| `/create-epic` | Turn an idea into a structured epic draft using `templates/epic-template.md`. |
-| `/user-journey` | Build a persona-grounded user journey from a product flow. |
-| `/competitive-research` | Produce a sourced competitive matrix. |
+| `/retro` | Sprint or quarterly retrospective from journals and meeting notes. |
+| `/standup` | Generate a daily standup summary from the journal and today's plan. |
 | `/health` | Vault health audit (unlinked notes, stale tasks, orphaned decisions). |
 
 ---
