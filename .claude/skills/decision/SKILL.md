@@ -1,130 +1,132 @@
 ---
 name: decision
-description: Make a product decision with full context from vault and available sources
+description: Make a product decision with full context from the vault and available sources
 argument-hint: "[decision topic]"
 ---
 
 # Make a Product Decision
 
-You are helping make a well-informed product decision by gathering context from all available sources and creating structured documentation.
+You help make a well-informed product decision by gathering context from all available sources and producing structured documentation, follow-up tasks, and a communication draft.
 
 ## Input
 
-The user will provide a decision topic/question via `$ARGUMENTS`. Examples:
+The user provides a decision topic via `$ARGUMENTS`. Examples:
 - "should we support feature X in the next release"
 - "prioritize feature A vs feature B"
-- "should we use GraphQL for the new API"
+- "should we adopt GraphQL for the new API"
 
 ## Workflow
 
-1. **Search the Obsidian vault**:
-   - Search recent meetings in `Meetings/` for prior discussions on this topic
-   - Search daily notes in `journals/` (last 2 weeks) for related context
-   - Search `Loose Notes/Work/` for related decisions or notes
-   - Check `Dashboard/Weekly P-Tasks.md` for related priorities
+1. **Search the vault**:
+   - Recent meetings in `Meetings/` that touched this topic
+   - Daily notes in `journals/` (last 2 weeks) for related context
+   - `Loose Notes/Work/` for related decisions or drafts
+   - `Dashboard/Weekly P-Tasks.md` for related priorities
 
 2. **Use GitHub MCP** (if configured):
    - Search repositories for related issues/PRs
-   - Read engineering comments and discussions to understand technical feasibility
-   - Identify any blockers or concerns raised by engineering
+   - Read engineering comments and discussions
+   - Identify any blockers or concerns raised
 
-3. **Ask for additional context** (before presenting options):
-   - Ask the user: "Do you have a Slack thread, document, or discussion related to this decision? If yes, paste it now - I'll use it as additional context."
-   - If user provides context: extract key opinions, concerns, constraints
-   - If user skips: proceed without it
+3. **Ask for additional context** (before options):
+   - "Do you have a Slack thread, document, or discussion about this decision? If yes, paste it now."
+   - If provided: extract opinions, concerns, constraints.
+   - If skipped: proceed without.
 
 4. **Present context summary**:
-   - Relevant notes and prior discussions found
-   - Strategy alignment (if strategy docs exist in vault)
-   - Customer data or validation (if any found)
+   - Relevant notes and prior discussions
+   - Strategy alignment (if strategy docs exist)
+   - Customer data or validation (if any)
    - Engineering discussions and feasibility (from GitHub)
 
 5. **Draft options with trade-offs**:
-   - List 2-3 viable options
-   - For each option, provide:
-     - Pros (benefits, alignment with goals, customer value)
-     - Cons (costs, risks, complexity, timeline impact)
-   - Don't recommend yet - present objectively
+   - 2-3 viable options
+   - For each: pros (benefits, alignment, customer value), cons (costs, risks, complexity, timeline)
+   - Do not recommend yet - present objectively
 
 6. **Create decision note**:
    - Location: `Loose Notes/Work/YYYY-MM-DD - Decision - [Topic].md`
    - Structure:
 
-   ```markdown
-   ---
-   tags: LooseNotes
-   date: YYYY-MM-DD
-   ---
-   # Decision: [Topic]
+```markdown
+---
+tags: LooseNotes
+date: YYYY-MM-DD
+---
+# Decision: [Topic]
 
-   **Date**: YYYY-MM-DD
+**Date**: YYYY-MM-DD
 
-   ## Context
-   [Why this decision is needed - background from notes, meetings, strategy]
+## Context
+[Why this decision is needed - background from notes, meetings, strategy]
 
-   ## Options Considered
-   1. **Option 1**: [Description]
-      - Pros: ...
-      - Cons: ...
-   2. **Option 2**: [Description]
-      - Pros: ...
-      - Cons: ...
+## Options Considered
+1. **Option 1**: [Description]
+   - Pros: ...
+   - Cons: ...
+2. **Option 2**: [Description]
+   - Pros: ...
+   - Cons: ...
 
-   ## Decision
-   [To be filled by user after review, or suggest recommendation if clear]
+## Decision
+[To be filled after review, or suggest recommendation if clear]
 
-   ## Rationale
-   [Why this option, trade-offs accepted]
+## Rationale
+[Why this option, trade-offs accepted]
 
-   ## Impact
-   [What changes, who is affected, timeline]
+## Impact
+[What changes, who is affected, timeline]
 
-   ## Communication
-   [Who needs to be informed, how]
+## Communication
+[Who needs to be informed, how]
 
-   ## Follow-up Tasks
-   - [ ] [Task]
-   ```
+## Follow-up Tasks
+- [ ] [Task]
+```
 
 7. **Link the decision note**:
-   - Add link in today's journal (`journals/YYYY/MM-Month/DD-MM-YYYY.md`) under `## Notes`
+   - Add a link in today's journal (`journals/YYYY/MM-Month/DD-MM-YYYY.md`) under `## Notes`.
 
-8. **Draft communication**:
-   - Create a ready-to-post Slack message or email announcing the decision
-   - Keep it concise (under 200 words)
-   - Format: Context -> Decision -> Impact -> Next steps
+8. **Draft a communication**:
+   - A ready-to-post message announcing the decision.
+   - Keep it concise (under 200 words).
+   - Format: Context → Decision → Impact → Next steps.
+   - Channel-neutral by default; if the user names a channel (Slack/email), adapt to that channel's style (see `/communicate`).
 
-9. **Propose Todoist follow-up tasks** (confirm before creating):
-   - Identify tasks needed for implementing and communicating the decision
-   - Show proposed task list to the user
-   - Wait for confirmation before calling Todoist MCP
-   - After confirmation: create tasks per `shared/todoist-config.md`
+9. **Propose follow-up tasks** (confirm before writing):
+   - Identify tasks needed to implement and communicate the decision.
+   - Show the proposed list and wait for confirmation.
+   - After confirmation, append each task to `Dashboard/tasks.md` under "This week" with format:
+
+```
+- [ ] Task - source: [[YYYY-MM-DD - Decision - Topic]] - due: YYYY-MM-DD - priority: P2
+```
 
 ## Output Format
 
 ```
-✅ Decision note created: [[YYYY-MM-DD - Decision - [Topic]]]
+✅ Decision note created: [[YYYY-MM-DD - Decision - Topic]]
 ✅ Linked in today's journal
 
 📊 Context gathered:
-- [N] related notes/meetings found
-- [N] GitHub issues/PRs reviewed
+- [N] related notes/meetings
+- [N] GitHub issues/PRs
 
 📝 Communication draft:
 [Message ready to copy-paste]
 
-📋 Proposed Todoist tasks:
+📋 Proposed follow-up tasks:
 - [ ] [Task 1] - P[N], due [date]
 - [ ] [Task 2] - P[N]
 
-Confirm: Add tasks to Todoist? (Y/N or edit the list)
+Confirm: Add tasks to Dashboard/tasks.md? (Y/N or edit)
 
-💡 Recommendation: [Your analysis-based recommendation, or "Awaiting user input"]
+💡 Recommendation: [Your analysis-based recommendation, or "Awaiting your input"]
 ```
 
 ## Notes
 
-- Always cite sources (meeting notes, GitHub issues, etc.)
-- If options are equal/unclear, present them objectively and ask for user preference
-- Keep the "Decision" section empty if not immediately clear
-- If the decision is urgent, mark Todoist tasks with P2 priority
+- Always cite sources (meeting notes, GitHub issues).
+- If options are equal/unclear, present objectively and ask for user preference.
+- Leave the "Decision" section empty if not immediately clear.
+- If the decision is urgent, propose tasks with P2 priority.

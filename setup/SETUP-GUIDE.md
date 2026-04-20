@@ -1,157 +1,201 @@
 # Setup Guide
 
-Step-by-step instructions to get your AI PM Workspace running.
+The detailed version of the Quick Start in the [README](../README.md). If anything fails, this file is where to look.
 
-## Prerequisites
+## Prerequisites checklist
 
-- [Obsidian](https://obsidian.md/) installed
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed (`npm install -g @anthropic-ai/claude-code`)
-- A Claude API key or Claude Pro/Max subscription
-- Git
-- GitHub Copilot subscription (for GitHub MCP - optional, skip if you don't use GitHub for issue tracking)
+Before you start, make sure you have:
 
-### Optional Obsidian Plugins
+- [ ] A Claude Pro ($20/month), Max, or Teams subscription. The free plan does **not** include Claude Code.
+- [ ] A GitHub account.
+- [ ] (Optional) [Obsidian](https://obsidian.md/) if you want the vault to render as a proper knowledge base.
 
-The daily note template includes an optional Todoist query block that is commented out by default. To use it, install the [Obsidian Todoist Plugin](https://github.com/jamiebrynes7/obsidian-todoist-plugin) and then uncomment the block in the daily note template by removing the surrounding `<!-- ... -->` comment markers. If you don't use Todoist or don't install the plugin, you can leave the block commented out or delete it from the template.
+You do **not** need to know Git or have any terminal experience to get started - Path 1 below is fully UI-based once Claude Code is installed.
 
-## Step 1: Clone and Open
+## Step 1: Install Claude Code
 
-```bash
-git clone https://github.com/aleksander-dytko/ai-pm-workspace.git
-cd ai-pm-workspace
-```
+Three install paths. Pick the one that matches how you work.
 
-Open this folder as an Obsidian vault:
-1. Open Obsidian
-2. Click "Open folder as vault"
-3. Select the `ai-pm-workspace` folder
+### Option A: VS Code extension (easiest for first-time users)
 
-## Step 2: Configure MCP Servers
+1. Open VS Code (install it first if needed: [code.visualstudio.com](https://code.visualstudio.com/)).
+2. Open the Extensions view (`Cmd+Shift+X` / `Ctrl+Shift+X`).
+3. Search for **"Claude Code"** by Anthropic. Install it.
+4. The extension installs the CLI behind the scenes.
+5. Open a folder in VS Code and look for the Claude Code panel in the sidebar.
 
-MCP (Model Context Protocol) servers let Claude Code connect to external tools. Configure the ones you use:
+Pros: no terminal, diff view for edits, click-to-open file references.
 
-### Todoist (recommended)
+### Option B: Native install (for power users)
+
+**macOS / Linux**:
 
 ```bash
-claude mcp add todoist --transport streamable-http --url https://ai.todoist.net/mcp
+npm install -g @anthropic-ai/claude-code
 ```
 
-See [mcp-configs/todoist.md](mcp-configs/todoist.md) for detailed setup.
+Then authenticate:
 
-### GitHub (recommended)
+```bash
+claude login
+```
+
+Follow the browser flow to log into your Anthropic account.
+
+**Windows**:
+
+- Install [Node.js](https://nodejs.org/) (includes npm).
+- Open PowerShell or Command Prompt and run the same `npm install -g ...` command as above.
+
+Verify:
+
+```bash
+claude --version
+```
+
+If you see a version number, you're good.
+
+### Option C: Claude Desktop (GUI-first)
+
+1. Download [Claude Desktop](https://claude.ai/download) for macOS or Windows.
+2. Sign in with your Claude account.
+3. Claude Desktop includes Claude Code under the hood; open any folder and the same commands work.
+
+Best for users who prefer a chat-first interface over a code editor.
+
+## Step 2: Install GitHub tooling
+
+You need **one** of the following:
+
+### Option A: GitHub Desktop (no terminal)
+
+1. Download [GitHub Desktop](https://desktop.github.com/).
+2. Open it and sign in with your GitHub account.
+3. Done - use this for Path 1 in the README.
+
+Ref for non-developers: Hannah Stulberg's [Tool School: GitHub 101](https://hannahstulberg.substack.com/p/tool-school-github-101) is an excellent primer if you've never used GitHub before. Covers how repos work, why branches exist, and the typical get-stuck moments.
+
+### Option B: GitHub CLI (`gh`)
+
+**macOS**:
+
+```bash
+brew install gh
+gh auth login
+```
+
+**Windows**:
+
+```powershell
+winget install GitHub.cli
+gh auth login
+```
+
+**Linux**: see [cli.github.com](https://cli.github.com/).
+
+Verify:
+
+```bash
+gh auth status
+```
+
+You should see "Logged in to github.com as [your username]".
+
+## Step 3: Clone the template
+
+See the [README](../README.md#clone-the-template-three-paths) for the three cloning paths.
+
+## Step 4: Run `/personalize`
+
+1. Open your cloned repo folder in Claude Code (VS Code extension, terminal `claude`, or Claude Desktop).
+2. Type: `/personalize`
+3. Follow the prompts. Three minutes.
+
+The skill updates `CLAUDE.md` with your identity. You're now ready to use the other skills.
+
+## Step 5: Try your first skill
+
+Start simple. Write a few lines of raw notes from a recent meeting into a new file in `Meetings/` (e.g., `Meetings/2026-04-20 - Customer sync.md`), then run:
+
+```
+/meeting
+```
+
+Claude will ask which file to process, then produce a structured meeting note with decisions, action items, and a ready-to-add list of tasks for `Dashboard/tasks.md`.
+
+## Configure MCP servers (optional)
+
+MCP (Model Context Protocol) servers let Claude Code connect to external tools. The template works without any MCPs; these are enhancements.
+
+### GitHub MCP (recommended for epic work)
 
 ```bash
 claude mcp add github --transport streamable-http --url https://api.githubcopilot.com/mcp
 ```
 
-See [mcp-configs/github.md](mcp-configs/github.md) for detailed setup.
+Requires a GitHub Copilot subscription for the official MCP endpoint. Alternative: use `gh` CLI commands via Claude Code's Bash tool.
 
-### Other MCPs (optional)
+### Other MCPs
 
-You can add any MCP server that enhances your workflow:
-- **Notion**: For personal notes integration
-- **Domain-specific docs**: For product documentation lookup (e.g., your company's docs)
-- **Linear/Jira**: For issue tracking (if you don't use GitHub Issues)
+Any MCP-compatible tool can be added:
 
-Browse available MCPs at [mcp.so](https://mcp.so) or the [MCP servers directory](https://github.com/modelcontextprotocol/servers).
-
-## Step 3: Run Personalization
-
-Open Claude Code in this directory and run:
-
-```
-/personalize
+```bash
+claude mcp add [name] --transport streamable-http --url [url]
 ```
 
-This interactive skill will:
-- Ask about your role, company, and product area
-- Configure CLAUDE.md with your context
-- Set up Todoist project/section IDs
-- Create stakeholder profiles (optional)
+Browse available MCPs at [mcp.so](https://mcp.so) or the [official MCP servers directory](https://github.com/modelcontextprotocol/servers).
 
-## Step 4: Start Using
+Common additions: Notion, Linear, Jira, Confluence, company-specific docs APIs.
 
-Try these skills:
+Run `/personalize --deep` to detect connected MCPs and wire them into `CLAUDE.md`.
 
-| Command | What it does |
-|---------|-------------|
-| `/today` | Plan your day (morning ritual) |
-| `/meeting` | Process raw meeting notes into structured notes |
-| `/decision [topic]` | Make a documented decision |
-| `/communicate [topic + audience]` | Draft a Slack/email message |
-| `/weekly-plan` | Plan your week with P-tasks and overplanning challenge |
-| `/end-of-day` | Close out your day and prep tomorrow |
-| `/slack-thread [paste]` | Process a pasted Slack conversation |
-| `/process-inbox` | Route Inbox/ notes to the right folders |
+## Troubleshooting
 
-## Step 5: Build Your Workflow
+### "Claude Code can't find my files"
 
-The included skills are a starting point. You can:
+Make sure you're running Claude Code from the vault root directory, not from a parent folder. Check that file paths in `CLAUDE.md` match your actual folder structure.
 
-1. **Modify existing skills** - Edit files in `.claude/skills/` to match your workflow
-2. **Create new skills** - Add a new folder in `.claude/skills/` with a `SKILL.md` file
-3. **Add MCP integrations** - Connect more tools via MCP servers
-4. **Extend CLAUDE.md** - Add more context as your usage matures
+### "`gh auth status` says I'm not logged in"
 
-### Quick-capture with Inbox
+Run `gh auth login` and follow the browser flow. If you've just installed `gh`, you may need to restart your terminal.
 
-During the day, drop notes in `Inbox/` with any name - no naming conventions needed. When ready, run `/process-inbox` to classify and route them to the right folder:
+### "GitHub Desktop can't clone my repo"
 
-- Meeting-like notes -> `Meetings/` with proper `YYYY-MM-DD - [Title].md` naming
-- Decisions -> `Loose Notes/Work/` with Decision prefix
-- Project updates -> `Projects/` (appended to existing files or new)
-- Everything else -> `Loose Notes/Work/`
+Check that you've accepted the invite to your own repo (GitHub sometimes pops this). Sign out and back in to GitHub Desktop. If still stuck, try Path 2 (ask Claude to clone it).
 
-The `/today` and `/end-of-day` skills automatically check for unprocessed Inbox items.
+### "MCP server not responding"
 
-### Skill ideas to build yourself
+Check `claude mcp list` to verify the server is configured. For any OAuth-based MCP, the token can expire - remove and re-add:
 
-- **`/initiative`**: Track product initiatives
-  - Read status from external repos
-  - Update working files in your vault
-  - Cross-reference with meeting notes
+```bash
+claude mcp remove [name]
+claude mcp add [name] --transport streamable-http --url [url]
+```
 
-- **`/retro`**: Sprint or quarterly retrospective
-  - Analyze recent journals and meeting notes for patterns
-  - Summarize wins, blockers, and recurring themes
-  - Generate shareable retrospective summary
+### "Skills not showing up when I type `/`"
+
+Skills must be in `.claude/skills/[name]/SKILL.md`. The `SKILL.md` file needs valid frontmatter with `name` and `description`. Restart Claude Code after adding or editing skills.
+
+### "I got stuck at step X"
+
+Open an issue on this repo, or run `/report` from within your workspace - the skill opens a GitHub issue with the context pre-filled. (Not yet shipped; expected in v2.1.)
 
 ## Architecture Overview
 
 ```
 +-------------------+    +---------------------+    +-------------------+
 |                   |    |                     |    |                   |
-|  OBSIDIAN VAULT   |<-->|    CLAUDE CODE      |<-->|   MCP BRIDGES     |
-|  (persistent      |    |    (executor)       |    |                   |
-|   brain)          |    |                     |    |  - Todoist        |
-|                   |    |  Skills:            |    |  - GitHub         |
-|  - Daily journal  |    |  /today             |    |  - [Your tools]   |
-|  - Meeting notes  |    |  /meeting           |    |                   |
-|  - Decisions      |    |  /decision          |    |                   |
-|  - Loose notes    |    |  /communicate       |    |                   |
-|                   |    |                     |    |                   |
+|   YOUR VAULT      |<-->|    CLAUDE CODE      |<-->|   MCP BRIDGES     |
+|   (persistent     |    |    (executor)       |    |   (optional)      |
+|    memory)        |    |                     |    |                   |
 +-------------------+    +---------------------+    +-------------------+
         ^                         |
         |       writes back       |
         +-------------------------+
 ```
 
-**Obsidian** = your persistent knowledge base (Markdown files)
-**Claude Code** = the executor that reads your vault and acts on it
-**MCP** = bridges to external tools (Todoist, GitHub, etc.)
+- **Vault** = your persistent knowledge base (Markdown files).
+- **Claude Code** = the executor that reads your vault and acts on it.
+- **MCP** = optional bridges to external tools (GitHub, etc.).
 
-## Troubleshooting
-
-### Claude Code can't find my files
-- Make sure you're running Claude Code from the vault root directory
-- Check that file paths in CLAUDE.md match your actual folder structure
-
-### Todoist MCP not working
-- Re-run `claude mcp add todoist` and re-authenticate
-- Check `claude mcp list` to verify it's configured
-- Try a simple command first: ask Claude "list my Todoist projects"
-
-### Skills not showing up
-- Skills must be in `.claude/skills/[name]/SKILL.md`
-- The SKILL.md file needs valid frontmatter with `name` and `description`
-- Restart Claude Code after adding new skills
+See [CLAUDE.md](../CLAUDE.md) for the full operating manual Claude Code reads at each session.

@@ -28,16 +28,7 @@ mood:
 2.
 3.
 
-<!-- Optional: If you use the Obsidian Todoist Plugin, uncomment the block below to embed your tasks:
-```todoist
-name: "Today & Overdue"
-filter: "(today | overdue)"
-sorting:
-   - priority
-```
--->
-
-- [ ] Tasks for today are planned and prioritized in Todoist.
+- [ ] Tasks for today are planned in [[tasks]] and marked with 🎯.
 
 ---
 ## Notes

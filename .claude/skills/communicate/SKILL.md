@@ -1,70 +1,64 @@
 ---
 name: communicate
-description: Draft a professional communication (Slack/email) with context from vault
-argument-hint: "[what to communicate + to whom]"
+description: Draft a professional communication (Slack, email, or async doc) with context from the vault
+argument-hint: "[what to communicate + to whom + channel]"
 ---
 
 # Draft a Communication
 
-You are helping draft a professional communication based on context from the vault.
+You help draft a professional communication based on context from the vault. Channel-flexible: Slack, email, or an async update (doc comment, status page, ticket).
 
 ## Input
 
-The user will provide via `$ARGUMENTS`:
-- **What to communicate**: The topic or message content
-- **To whom**: The recipient or audience
+The user provides via `$ARGUMENTS`:
+- **What to communicate**: the topic or message content
+- **To whom**: the recipient or audience
+- **Channel** (optional): "Slack", "email", "doc", "async update". If not specified, ask once.
 
-Example: "update engineering on API scope change"
+Example: "update engineering on API scope change - Slack, #eng-platform".
 
 ## Workflow
 
 1. **Read relevant context**:
-   - Recent meetings in `Meetings/` that discussed this topic
+   - Recent meetings in `Meetings/` on this topic
    - Recent decisions in `Loose Notes/Work/` related to the topic
    - `Dashboard/Weekly P-Tasks.md` for current priorities
    - Any other relevant notes found via search
 
-2. **Check communication preferences**:
-   - Read `Dashboard/people-profiles.md` for recipient's communication style (if listed)
-   - Note preferred channel, tone, level of detail
+2. **Check recipient preferences**:
+   - Read `Dashboard/people-profiles.md` for recipient's communication style (if listed).
+   - Note preferred channel, tone, level of detail.
 
 3. **Determine audience and tone**:
-   - **Engineering teams**: Technical, specific, actionable
-     - Include: Links to specs, APIs, issues, implementation details
-     - Avoid: High-level marketing language
-   - **Design teams**: User-focused, visual references
-     - Include: User stories, customer context
-     - Avoid: Deep technical implementation details
-   - **Leadership**: Strategic, metrics-driven, concise
-     - Include: Business impact, metrics, goal alignment, concise summary
-     - Avoid: Implementation details, technical jargon
-   - **Customers**: Professional, benefits-focused
-     - Include: Business value, clear ROI, feature benefits
-     - Avoid: Internal jargon, unfinished features, uncertainty
+   - **Engineering**: technical, specific, actionable. Include links to specs, APIs, issues. Avoid high-level marketing language.
+   - **Design**: user-focused, visual references. Include user stories and customer context. Avoid deep technical detail.
+   - **Leadership**: strategic, metrics-driven, concise. Include business impact, metrics, goal alignment. Avoid implementation detail.
+   - **Customers**: professional, benefits-focused. Include business value and clear ROI. Avoid internal jargon and unfinished features.
 
 4. **Draft the message**:
-   - Start with context (why this message now)
+   - Start with context (why this, now)
    - Present 2-3 key points clearly
    - End with clear next steps or call to action
-   - Use appropriate formatting for the channel:
-     - **Slack**: Use Slack markdown (`*bold*`, `-` bullets, `:emoji:`)
-     - **Email**: Professional email format with subject line
+   - Format for the chosen channel:
+     - **Slack**: Slack markdown (`*bold*` single asterisk, `-` bullets, `:emoji_name:`)
+     - **Email**: subject line + professional email body
+     - **Async doc / comment**: plain Markdown, no emoji-heavy formatting, lead with the conclusion (inverted pyramid)
 
 5. **Include relevant links**:
-   - Meeting notes (if referencing prior discussions)
-   - GitHub issues (if relevant and accessible to recipient)
+   - Meeting notes (for prior discussions)
+   - GitHub issues (if accessible to the recipient)
    - Any external links that support the message
 
 ## Output Format
 
-**For Slack messages**:
+**Slack:**
 ```
-📧 Slack message for [Recipient/Channel]:
+📧 Slack message for [Recipient / Channel]:
 
-[Message ready to copy-paste with Slack markdown formatting]
+[Message ready to copy-paste with Slack markdown]
 ```
 
-**For emails**:
+**Email:**
 ```
 📧 Email draft for [Recipient]:
 
@@ -73,9 +67,16 @@ Example: "update engineering on API scope change"
 [Email body ready to copy-paste]
 ```
 
-## Example: Engineering Update
+**Async doc / comment:**
+```
+📝 Async update for [Doc / Ticket / Channel]:
 
-User: "update engineering on API scope change"
+[Body - lead with conclusion, then context, then next steps]
+```
+
+## Example: Engineering Slack update
+
+User: "update engineering on API scope change - Slack, #eng-platform"
 
 Draft:
 ```
@@ -83,7 +84,7 @@ Draft:
 
 *API scope update for next release*
 
-We're adjusting the scope based on customer validation feedback:
+We're adjusting scope based on customer validation feedback:
 
 *In scope* ✅:
 - Business key search endpoint (epic: [link])
@@ -103,9 +104,9 @@ We're adjusting the scope based on customer validation feedback:
 Questions? Thread below or ping me directly.
 ```
 
-## Example: Leadership Update
+## Example: Leadership email
 
-User: "draft leadership update on Q1 progress"
+User: "draft leadership update on Q1 progress - email"
 
 Draft:
 ```
@@ -128,7 +129,7 @@ Quick update on Q1 progress:
 
 *Risks*:
 - Engineering capacity tight on one initiative
-- Mitigation: Deprioritized lower-impact work to next cycle
+- Mitigation: deprioritized lower-impact work to next cycle
 
 *Next milestone*: Design review [date], eng handoff [date].
 
@@ -137,8 +138,8 @@ Full details: [link]
 
 ## Notes
 
-- Match the tone to the audience - don't send engineering-style updates to leadership
-- Keep Slack messages under 200 words (people skim)
-- Email subject lines should be clear and actionable
-- Reference `Dashboard/people-profiles.md` for recipient-specific preferences
-- Use Slack markdown formatting: `*bold*` (single asterisk), `-` bullets, `:emoji:` format
+- Match the tone to the audience - don't send engineering-style updates to leadership.
+- Keep Slack messages under 200 words (people skim).
+- Email subject lines should be clear and actionable.
+- Reference `Dashboard/people-profiles.md` for recipient-specific preferences.
+- Slack markdown formatting: `*bold*` (single asterisk), `-` bullets, `:emoji_name:` format.

@@ -1,253 +1,248 @@
 ---
 name: personalize
-description: Customize this workspace to your role, company, and tools through an interactive setup
+description: Customize this workspace to your role, company, and tools - quick (2 min) or deep (10 min)
+argument-hint: "[quick | deep]"
 ---
 
 # Personalize Your Workspace
 
-You are helping the user customize this AI PM Workspace template to their specific role, company, and tools. This is a one-time interactive setup that configures CLAUDE.md, skills, and integrations.
+You help the user customize the AI PM Workspace template to their specific role, company, and tools. Two tiers:
 
-## Input
+- **Quick start** (default, target 3 min): name, role, one free-text paragraph. Fills `CLAUDE.md` identity. Ships working skills immediately.
+- **Deep personalization** (target 10 min): full flow with MCP detection, initiatives/projects setup, and people profiles. Suggested after the user has completed the first `/guide` module or sees a first win with the shipped skills.
 
-The user invokes this skill after cloning the repository. No arguments needed.
+## Mode selection
 
-## Workflow
+Check `$ARGUMENTS`:
+- `quick` (or no argument): quick start
+- `deep`: deep personalization
 
-### Phase 1: Welcome + Core Identity (1 round)
+If the user invokes without arguments on a repo that already has filled identity (i.e., `CLAUDE.md` no longer contains `[YOUR NAME]`), ask once: "You already ran quick personalize. Run deep personalization now?"
 
-Start with a brief welcome, then ask all core identity questions in ONE AskUserQuestion:
+---
+
+## Quick start (target 3 minutes)
+
+### Phase 1: One AskUserQuestion (3 questions)
 
 ```
-Welcome to AI PM Workspace! Let's customize this to your setup.
-I'll ask a few questions, then update everything automatically.
+Welcome. Two minutes and you're running.
 ```
 
-**Questions (4 in AskUserQuestion)**:
+**Questions:**
 
 1. **Role**: "What's your role?"
-   - Options: "Product Manager", "Senior PM / Group PM", "Head of Product / Director", "Engineering Manager"
+   - Options: "Product Manager", "Senior / Group PM", "Head of Product", "Designer", "Other role (free text)"
 
-2. **Company type**: "What type of company?"
-   - Options: "B2B SaaS", "B2C / Consumer", "Enterprise / Platform", "Startup / Early stage"
+2. **Team interactions**: "Who do you typically communicate with?" (multiSelect)
+   - Options: "Engineering", "Design", "Leadership", "Customers / External"
 
-3. **Team structure**: "Who do you typically communicate with?"
-   - multiSelect: true
-   - Options: "Engineering teams", "Design teams", "Leadership / Executives", "Customers / External"
-
-4. **Note-taking language**: "What language do you write notes in?"
+3. **Note-taking language**: "What language do you write notes in?"
    - Options: "English only", "Mixed (English work + another language for personal notes)"
 
-### Phase 2: Company & Product Details (1 round)
-
-Build the free-text prompt dynamically based on Phase 1:
+### Phase 2: One free-text prompt
 
 ```
-Now the specifics. Tell me about:
+Now the specifics - in one short answer, tell me:
 
-1. **Your name**: What's your full name?
-2. **Company name**: What company do you work for?
-3. **What it does**: One sentence about what your company does
-4. **Your product area**: What part of the product do you own? (e.g., "Core Platform", "Growth", "Developer Tools")
-5. **Key products/features**: List 2-3 main products or features (comma-separated)
-6. **Target users**: Who uses your product? (e.g., "Developers, DevOps engineers")
+1. Your full name
+2. Your company (name, and what it does in one sentence)
+3. Your focus area (part of the product you own, e.g., "Payments", "Developer Tools", "Core Platform")
+
+That's it. Example: "Jordan Kim. Stripe, payments infrastructure. I own the subscription billing area."
 ```
 
-**If "Mixed" language was selected in Phase 1**, also ask:
+Parse the answer into: name, company, company description, focus area.
+
+**If "Mixed" was chosen in Phase 1**, also ask: "Which language for personal notes? (e.g., German, Spanish, French)"
+
+### Phase 3: Apply
+
+Update `CLAUDE.md`:
+- `[YOUR NAME]` -> user's name
+- `[YOUR ROLE]` -> from Phase 1 question 1
+- `[YOUR COMPANY]` -> from Phase 2 parse
+- `[YOUR PRODUCT AREAS]` -> from Phase 2 parse
+- Company context section -> populated from Phase 2 description (one paragraph)
+- Communication tone guidance -> keep only audience types selected in Phase 1 question 2
+- Language section -> update if "Mixed" was selected
+
+Add a note in the `CLAUDE.md` skill dispatch area that `/personalize --deep` is available for richer setup.
+
+Initialize `Dashboard/Weekly P-Tasks.md` with the current week header (if empty).
+
+### Phase 4: Summary
+
 ```
-7. **Personal language**: Which language do you use for personal notes and reflections? (e.g., "French", "German", "Spanish")
+Workspace personalized (quick).
+
+Filled CLAUDE.md identity:
+- Name: [name]
+- Role: [role]
+- Company: [company]
+- Focus: [focus area]
+
+You're ready. Try:
+
+1. /today          plan your day
+2. /meeting        process a meeting transcript into a structured note
+3. /decision       document a product decision with context
+4. /weekly-plan    weekly priorities (best on Sunday/Monday)
+5. /communicate    draft a Slack, email, or async update
+
+When you want to go deeper (MCP setup, initiatives, people profiles):
+
+  /personalize --deep
+
+Or start the guided tour:
+
+  /guide
 ```
 
-### Phase 3: Tool Setup (1 round)
+---
 
-Ask about MCP integrations:
+## Deep personalization (target 10 minutes)
 
-**Questions (4 in AskUserQuestion)**:
+### Phase 1: Identity deep dive (free text)
 
-1. **Todoist**: "Do you use Todoist for task management?"
-   - Options: "Yes, already set up", "Yes, need help setting up", "No, I use something else", "No task manager"
+Prompt:
+```
+Tell me more:
 
-2. **GitHub**: "Do you use GitHub for issue/PR tracking?"
-   - Options: "Yes, already set up", "Yes, need help setting up", "No"
+1. Your full name
+2. Your role and seniority (e.g., "Senior PM, 5 years at current company")
+3. Your company - name, one-sentence description, target customers
+4. Your focus area - what part of the product you own, key features or surfaces
+5. Your main users - who actually uses your product day-to-day
+```
 
-3. **Other MCPs**: "Do you have other MCP servers you want to configure? (e.g., documentation tools, Notion, Linear, Jira)"
-   - Options: "No, just Todoist and GitHub", "Yes, I have other MCPs to configure"
+### Phase 2: MCP detection (no user questions)
 
-4. **People profiles**: "Do you want to set up stakeholder communication profiles?"
-   - Options: "Yes, I'll add key people now", "Later, skip for now"
+Check which MCP servers are available in the current Claude Code environment by reading the tool list:
 
-### Phase 3b: Workspace Structure (1 round)
+- **GitHub MCP** (`mcp__github__*` tools present) -> note as available
+- **Any documentation MCP** (`mcp__*-docs__*` tools) -> note as available
+- **Notion / Linear / Jira** -> note if present
+- Any other MCPs -> list them
 
-**Questions (3 in AskUserQuestion)**:
+Present:
 
-1. **Inbox folder**: "Do you want an Inbox folder for quick-capture notes during the day? Notes land here first, then get processed and routed to the right folder."
-   - Options: "Yes, set it up", "No, I'll file notes directly"
+```
+MCP servers I can see:
+- Connected: GitHub MCP, [other detected MCPs]
+- Missing but potentially useful: [suggestions]
 
-2. **Projects folder**: "Do you want a Projects folder for tracking ongoing projects? Each project gets a working file with status, decisions, and action items."
-   - Options: "Yes, set it up", "No, I use Loose Notes for everything"
+Want to set up any missing ones now? (Optional - you can skip and add later)
+```
 
-3. **Additional skills**: "Which additional skills do you want highlighted in your setup?"
-   - multiSelect: true
-   - Options: "/weekly-plan (weekly P-task planning)", "/end-of-day (evening close-out)", "/slack-thread (process Slack conversations)", "/process-inbox (route Inbox notes)"
-   - Note: All skills are always available regardless of selection - this just affects what gets highlighted in the summary
+If the user wants to set one up, provide the `claude mcp add ...` command and ask them to restart Claude Code.
 
-### Phase 4: Todoist Configuration (conditional)
+### Phase 3: Initiatives / projects
 
-**Only if user selected Todoist "Yes, already set up" or "Yes, need help setting up":**
+Ask:
+```
+List 1-3 active initiatives or projects you're currently driving.
 
-If "need help setting up":
-- Guide them through: `claude mcp add todoist --transport streamable-http --url https://ai.todoist.net/mcp`
-- Tell them to restart Claude Code after adding the MCP, then run `/personalize` again
-- Skip to Phase 6 (apply what we have so far)
+For each: name, one-sentence description, rough status (discovery / in-development / validation / shipped).
 
-If "already set up":
-1. Call `mcp__todoist__find-projects` to list all projects
-2. Show the user a list: "Here are your Todoist projects: [list]. Which one should Claude create work tasks in?"
-3. Once the user picks a project, call `mcp__todoist__find-sections` with the selected `projectId`
-4. Show sections: "These sections exist in [project]: [list]."
-5. Ask: "Which section should be your **active/this week** section? (for current tasks and weekly P-tasks)"
-6. Ask: "Which section should be your **backlog** section? (for deferred tasks - skip if you don't use one)"
-7. If no sections exist, suggest creating them: "No sections found. Want me to create 'This Week' and 'Backlog' sections?"
-8. Confirm: "Got it - project '[name]' (ID: [id]), active section '[name]' (ID: [id]), backlog section '[name]' (ID: [id]). Correct?"
-9. Update `shared/todoist-config.md` with the confirmed IDs (project, active section, backlog section)
+Example:
+- Subscription billing migration - moving legacy customers to new billing stack - in development
+- Developer onboarding v2 - rework the first-run experience for new API users - discovery
+```
 
-### Phase 4b: GitHub Configuration (conditional)
+For each initiative, create `Initiatives/[slug].md` (create the folder if missing) using `templates/initiative-template.md` if present, otherwise this minimal structure:
 
-**Only if user selected GitHub "Yes, already set up" or "Yes, need help setting up":**
+```markdown
+---
+tags: Initiative
+status: [discovery | in-development | validation | shipped]
+updated: YYYY-MM-DD
+---
 
-If "need help setting up":
-- Guide them through: `claude mcp add github --transport streamable-http --url https://api.githubcopilot.com/mcp`
-- Tell them to restart Claude Code after adding the MCP, then run `/personalize` again
+# [Initiative Name]
 
-If "already set up":
-- Ask: "What GitHub repositories are important for your work? List 1-3 repos (owner/name format, e.g., 'myorg/product-tracker')."
-- For each repo, ask for a brief description (e.g., "Epic tracking", "Main codebase", "Documentation")
-- These will be added to the GitHub MCP section in CLAUDE.md
+**One-line**: [Description]
 
-### Phase 4c: Other MCP Configuration (conditional)
+## Status
+[Current status, last updated]
 
-**Only if user selected an option other than "No, just Todoist and GitHub":**
+## Why this matters
+[Problem / opportunity, target outcome]
 
-For each MCP the user mentioned:
-- Ask for a name and brief description of what it's used for
-- Ask for key operations they use it for
-- These will be added to the MCP servers section in CLAUDE.md (uncomment the optional MCP template and fill in)
+## Open questions
+-
 
-### Phase 5: People Profiles (conditional)
+## Decisions made
+-
 
-**Only if user wants to set up profiles:**
+## Open risks
+-
 
-Ask: "List 3-5 key people you work with. For each, give me: Name, Role, and how they prefer communication (brief/detailed, technical/strategic)."
+## Related notes
+-
+```
 
-Create `Dashboard/people-profiles.md` with the provided information in this format:
+### Phase 4: People profiles
+
+Ask:
+```
+List 3-5 key people you work with regularly. For each: name, role, and how they prefer to communicate (brief/detailed, technical/strategic).
+```
+
+Write `Dashboard/people-profiles.md`:
 
 ```markdown
 ---
 tags: Dashboard
 updated: YYYY-MM-DD
 ---
+
 # People Profiles
 
 Communication preferences and working styles of key stakeholders.
 
-## [Person Name]
+## [Name]
 - **Role**: [Role]
-- **Communication style**: [Brief description]
-- **Preferred channel**: [Slack/Email/etc.]
+- **Communication style**: [brief description]
+- **Preferred channel**: [Slack / email / async]
 - **Tags**: #[FirstName]
 ```
 
-### Phase 6: Apply All Changes
+### Phase 5: Apply all + summary
 
-Update all files based on collected answers:
+Update `CLAUDE.md` with:
+- Full identity fields
+- Company description and target users
+- MCP section reflecting what was detected / configured
+- Any initiative references in the skill dispatch table
 
-**1. CLAUDE.md** — Replace all placeholders:
-- `[YOUR NAME]` → user's name from Phase 2
-- `[YOUR ROLE]` → from Phase 1 (e.g., "Senior Product Manager")
-- `[YOUR COMPANY]` → from Phase 2
-- `[YOUR PRODUCT AREAS]` → from Phase 2
-- Company context section → fill in from Phase 2 (company description, target customers, products, target users)
-- Language section:
-  - If "English only": keep as-is
-  - If "Mixed": replace the comment block with active rules specifying the personal language from Phase 2
-- MCP servers section:
-  - Todoist: update `[YOUR PROJECT]`, `[YOUR ACTIVE SECTION]`, and `[YOUR BACKLOG SECTION]` with actual names (in the MCP section, the Todoist Integration section at the bottom, and `shared/todoist-config.md`)
-  - GitHub: update `[YOUR REPO]` entries with repos from Phase 4b. If multiple repos, add additional entries
-  - Optional MCPs: uncomment the optional MCP template and fill in for any MCPs from Phase 4c
-  - If a tool was not configured, add a comment: `<!-- Not configured. Run /personalize to set up. -->`
-- Vault structure section:
-  - If Inbox selected in Phase 3b: ensure `Inbox/` appears in the folder tree
-  - If Projects selected in Phase 3b: ensure `Projects/` appears in the folder tree
-  - If NOT selected: add comment `<!-- Inbox/ and Projects/ folders available but not configured. Run /personalize to enable. -->`
-- Communication tone guidance:
-  - Keep only the audience types the user selected in Phase 1 ("Who do you typically communicate with?")
-  - Remove entries for audiences they don't communicate with
-  - If they selected "Customers / External", keep the customer entry; otherwise remove it
-- Available Skills table: already includes all skills (core + extended)
-
-**2. Inbox/ and Projects/ folders** — Based on Phase 3b answers:
-- If Inbox selected: create `Inbox/` folder (if not exists) with `.gitkeep`
-- If Projects selected: create `Projects/` folder (if not exists) with `.gitkeep`
-
-**3. shared/todoist-config.md** — If Todoist configured in Phase 4:
-- `[YOUR PROJECT NAME]` → project name
-- `[YOUR PROJECT ID]` → project ID from MCP lookup
-- `[YOUR ACTIVE SECTION NAME]` → active section name
-- `[YOUR ACTIVE SECTION ID]` → active section ID from MCP lookup
-- `[YOUR BACKLOG SECTION NAME]` → backlog section name (or leave blank if not configured)
-- `[YOUR BACKLOG SECTION ID]` → backlog section ID (or leave blank if not configured)
-- Also update the JSON template at the bottom
-
-**4. Dashboard/people-profiles.md** — If people provided in Phase 5:
-- Write the complete file with all profiles
-
-**5. Dashboard/Weekly P-Tasks.md** — Initialize with current week:
-- Set the week header to the current week's date range
-- Add empty P1-P5 sections so the user can start planning immediately
-
-**6. templates/daily-note.md** — If "Mixed" language selected:
-- Add a comment at the top: `<!-- Language rule: Work sections in English, personal reflections in [language] -->`
-
-### Phase 7: Summary + Next Steps
+Then:
 
 ```
-Workspace personalized!
+Deep personalization complete.
 
-Updated:
-- CLAUDE.md (your identity, company context, MCP config)
-[if Todoist] - Todoist config (project: [name], active section: [name], backlog section: [name])
-[if GitHub] - GitHub repos ([N] repositories configured)
-[if people] - People profiles ([N] profiles created)
-[if mixed lang] - Language rules ([language] for personal, English for work)
-- Weekly P-Tasks (initialized for this week)
+Filled:
+- CLAUDE.md (identity, company, MCP section)
+[if initiatives] - Initiatives: N working files in Initiatives/
+[if people] - People profiles: N profiles in Dashboard/people-profiles.md
+[if mixed lang] - Language rules: [language] for personal, English for work
 
-Your workspace is ready. Here's what to try:
+Next steps:
 
-1. Start your day:        /today
-2. Process a meeting:     /meeting (write raw notes first, then invoke)
-3. Make a decision:       /decision [topic]
-4. Draft a message:       /communicate [topic + audience]
-5. Plan your week:        /weekly-plan (Sunday/Monday)
-6. Close your day:        /end-of-day (evening)
-7. Process a Slack thread: /slack-thread (paste a conversation)
-[if Inbox configured] 8. Route inbox notes: /process-inbox (batch process captured notes)
+1. /guide          interactive learning path (recommended)
+2. /today          plan today
+3. /meeting        process a meeting
+4. /decision       document a decision
 
-Tips:
-- The more notes you write, the smarter Claude gets about your context
-- Keep meeting notes in Meetings/, decisions in Loose Notes/Work/
-[if Inbox configured] - Quick-capture notes in Inbox/ during the day, then run /process-inbox to route them
-[if Projects configured] - Track ongoing work in Projects/ with working files
-- Update people-profiles.md as you learn communication preferences
-- Run /personalize again anytime to update your setup
-
-See setup/SETUP-GUIDE.md for advanced configuration.
+Run /personalize --deep again anytime to refresh or add more context.
 ```
+
+---
 
 ## Notes
 
-- This skill should feel like a friendly onboarding conversation, not a form
-- If the user gives brief answers, don't push for more — fill in reasonable defaults
-- If an MCP isn't configured yet, provide the setup command and suggest running /personalize again after
-- Don't ask about features the user doesn't need — respect "skip" and "later" answers
-- Keep the total interaction to 4-5 rounds maximum
-- When calling Todoist MCP functions, handle errors gracefully: if a call fails, tell the user and offer to configure manually
-- The summary in Phase 7 should only mention items that were actually configured — skip lines for skipped tools
+- Quick start must feel fast. If the user gives brief answers, don't push for more.
+- Deep mode should feel thorough but never bureaucratic. Skip any section the user pushes back on.
+- Never ask about tools the user didn't bring up.
+- Never create Todoist config - this template is Todoist-free. If the user mentions wanting Todoist sync, point them to `docs/todoist-sync.md` (optional extension, not shipped by default).
+- If `Initiatives/` or `Dashboard/people-profiles.md` already exist and have content, append rather than overwrite.
