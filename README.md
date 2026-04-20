@@ -1,170 +1,179 @@
 # AI PM Workspace
 
-A blueprint for building an AI-powered product management workspace with [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Obsidian](https://obsidian.md/), and MCP integrations.
+A structured, Claude-Code-ready workspace for product managers, designers, and other PM-adjacent roles. Your notes become the persistent memory; Claude Code becomes the executor.
 
-This is not a plugin or an app. It's a structured Obsidian vault with Claude Code skills that turn your notes into an intelligent PM operating system. Your vault becomes the persistent memory. Claude Code becomes the executor. MCP servers bridge the gap to your tools.
+This is a **template**. Clone it, run `/personalize`, and you have a working AI workspace in under five minutes.
 
-> **Background**: This template is based on a real PM workspace I built and use daily. I wrote about the approach in [Your AI Has No Memory. Mine Does.](https://productpeak.substack.com/p/your-ai-has-no-memory-mine-does) - this repo is the open-source blueprint that came from the response to that article.
+> **v2 is here** (see [CHANGELOG.md](CHANGELOG.md)). Tasks now live in-repo at `Dashboard/tasks.md` - no external task manager required. The old Todoist-coupled v1 is tagged `v1` if you need it.
 
-## The Architecture
+> **Background reading**:
+> - [Your AI Has No Memory. Mine Does.](https://productpeak.substack.com/p/your-ai-has-no-memory-mine-does) - the architecture that inspired this template.
+> - [The Four Claude Code Building Blocks](https://productpeak.substack.com/p/the-four-claude-code-building-blocks) - CLAUDE.md, MCP, skills, agents.
+> - [Claude Has 5 Memory Layers](https://productpeak.substack.com/p/claude-has-5-memory-layers-most-people) - how Claude Code actually remembers you.
+
+## What you get
+
+- **6 ready-to-use skills**: `/today`, `/meeting`, `/decision`, `/communicate`, `/weekly-plan`, `/personalize`
+- **A structured vault**: journals, meeting notes, decisions, dashboards, initiatives
+- **CLAUDE.md** pre-configured with quality standards, interaction rules, and a skill dispatch table
+- **In-repo task management** via `Dashboard/tasks.md` - no Todoist or external tool required
+- A `/personalize` skill that runs in two modes: quick (3 min) or deep (10 min)
+
+## How it fits together
 
 ```
 +-------------------+    +---------------------+    +-------------------+
 |                   |    |                     |    |                   |
-|  OBSIDIAN VAULT   |<-->|    CLAUDE CODE      |<-->|   MCP BRIDGES     |
-|  (persistent      |    |    (executor)       |    |                   |
-|   brain)          |    |                     |    |  - Todoist        |
-|                   |    |  Skills:            |    |  - GitHub         |
-|  - Daily journal  |    |  /today             |    |  - [Your tools]   |
-|  - Meeting notes  |    |  /meeting           |    |                   |
-|  - Decisions      |    |  /decision          |    |                   |
-|  - Loose notes    |    |  /communicate       |    |                   |
-|  - Inbox          |    |  /weekly-plan       |    |                   |
-|  - Projects       |    |  /end-of-day        |    |                   |
-|                   |    |  /slack-thread      |    |                   |
-|                   |    |  /process-inbox     |    |                   |
+|   YOUR VAULT      |<-->|    CLAUDE CODE      |<-->|   MCP BRIDGES     |
+|   (persistent     |    |    (executor)       |    |   (optional)      |
+|    memory)        |    |                     |    |                   |
+|                   |    |  Skills:            |    |   - GitHub        |
+|  - Daily journal  |    |   /today            |    |   - Your docs     |
+|  - Meeting notes  |    |   /meeting          |    |   - [Your tools]  |
+|  - Decisions      |    |   /decision         |    |                   |
+|  - Dashboard/     |    |   /communicate      |    |                   |
+|    tasks.md       |    |   /weekly-plan      |    |                   |
+|                   |    |   /personalize      |    |                   |
 +-------------------+    +---------------------+    +-------------------+
         ^                         |
         |       writes back       |
         +-------------------------+
 ```
 
-**Obsidian** is where your knowledge accumulates - daily journals, meeting notes, decisions, priorities. Everything in Markdown, everything searchable.
+- **Your vault** accumulates knowledge in Markdown. Everything searchable, versionable, yours.
+- **Claude Code** reads your vault and runs skills. Skills are repeatable workflows encoded as Markdown files.
+- **MCP bridges** (optional) connect Claude Code to external tools like GitHub.
 
-**Claude Code** reads from your vault and acts on what it finds. Skills are repeatable workflows for tasks you do frequently: planning your day, processing meeting notes, making decisions, drafting communications.
-
-**MCP servers** let Claude Code reach beyond local files. Todoist integration means tasks land in your task manager automatically. GitHub access lets it check engineering status. The system participates in your actual workflow instead of just reading files.
-
-## What's Included
-
-### 8 Ready-to-Use Skills
-
-#### Core Skills
-
-| Skill | Command | What it does |
-|-------|---------|-------------|
-| **Plan Today** | `/today` | Morning planning ritual: reviews yesterday, triages Todoist, sets focus items with capacity awareness |
-| **Process Meeting** | `/meeting` | Takes your raw meeting notes and structures them: decisions, action items, Todoist tasks, context links |
-| **Make Decision** | `/decision [topic]` | Gathers context from your vault and GitHub, presents options with trade-offs, creates documented decision |
-| **Draft Communication** | `/communicate [topic + audience]` | Adapts tone to audience (engineering/leadership/customers), uses your people profiles |
-
-#### Extended Skills
-
-| Skill | Command | What it does |
-|-------|---------|-------------|
-| **Plan Week** | `/weekly-plan` | Weekly P-task planning with Todoist sync, quality checklist, and overplanning challenge |
-| **End of Day** | `/end-of-day` | Evening close-out: fill journal, flag unprocessed meetings/inbox, prep tomorrow |
-| **Process Slack Thread** | `/slack-thread [paste]` | Analyze pasted Slack conversations: extract decisions, draft responses, save notes, create tasks |
-| **Process Inbox** | `/process-inbox` | Route quick-capture notes from Inbox/ to the right folder with proper naming |
-
-### 1 Onboarding Skill
-
-| Skill | Command | What it does |
-|-------|---------|-------------|
-| **Personalize** | `/personalize` | Interactive setup: configures CLAUDE.md, Todoist IDs, folders, and people profiles for your specific role and company |
-
-### Vault Structure
-
-```
-├── Dashboard/             # Living documents (weekly priorities, people profiles)
-├── Inbox/                 # Quick-capture notes (processed via /process-inbox)
-├── journals/              # Daily notes (YYYY/MM-Month/DD-MM-YYYY.md)
-├── Meetings/              # Meeting notes
-├── Loose Notes/Work/      # Decisions, drafts, analysis
-├── Projects/              # Ongoing project tracking files
-├── templates/             # Note templates (daily, meeting, loose, inbox, project)
-├── .claude/skills/        # Claude Code skills
-└── CLAUDE.md              # The "operating system" - tells Claude who you are and how to work
-```
-
-## Quick Start
+## Quick start
 
 ### Prerequisites
 
-- [Obsidian](https://obsidian.md/)
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) (`npm install -g @anthropic-ai/claude-code`)
-- Claude API key or Claude Pro/Max subscription
-- GitHub Copilot subscription (for GitHub MCP - optional)
+- A Claude Pro ($20/mo), Max, or Teams subscription. The free plan does not include Claude Code.
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed. See [setup/SETUP-GUIDE.md](setup/SETUP-GUIDE.md) for three install paths.
+- A GitHub account.
+- (Optional) [Obsidian](https://obsidian.md/) if you want the vault UX.
 
-### Setup (15-20 minutes)
+### Clone the template (three paths)
 
-```bash
-# 1. Clone this repo
-git clone https://github.com/aleksander-dytko/ai-pm-workspace.git
-cd ai-pm-workspace
+Pick the path that matches how you work.
 
-# 2. Add MCP servers (optional but recommended)
-claude mcp add todoist --transport streamable-http --url https://ai.todoist.net/mcp
-claude mcp add github --transport streamable-http --url https://api.githubcopilot.com/mcp
+#### Path 1: GitHub UI + GitHub Desktop (no terminal required)
 
-# 3. Open in Obsidian (Open folder as vault)
+Best for: designers, PMs, anyone who doesn't live in a terminal.
 
-# 4. Run Claude Code and personalize
-claude
-# Then type: /personalize
+1. Click the green **"Use this template"** button at the top right of this repo page.
+2. Choose **"Create a new repository"**. Name it (e.g., `my-pm-workspace`), make it private, create.
+3. Open [GitHub Desktop](https://desktop.github.com/). `File > Clone repository > [your new repo]`.
+4. Pick a local folder, click **Clone**.
+5. Open Claude Code in that folder. Run `/personalize`. Done.
+
+See [setup/SETUP-GUIDE.md](setup/SETUP-GUIDE.md) if you get stuck on GitHub auth - Hannah Stulberg's [Tool School: GitHub 101](https://hannahstulberg.substack.com/p/tool-school-github-101) is a great primer for non-developers.
+
+#### Path 2: Ask Claude Code to do it (minimal terminal)
+
+Best for: PMs who have Claude Code installed but aren't fluent with `git`.
+
+Open Claude Code in any empty folder and paste:
+
+```
+Clone the template at https://github.com/aleksander-dytko/ai-pm-workspace
+into a new repo called my-pm-workspace on my GitHub account,
+then clone that new repo locally and open it.
 ```
 
-The `/personalize` skill walks you through an interactive setup - it asks about your role, company, tools, and configures everything automatically.
+Claude will use the GitHub CLI to create the repo and clone it. If you don't have `gh` installed, Claude will guide you through installing it.
 
-See [setup/SETUP-GUIDE.md](setup/SETUP-GUIDE.md) for detailed instructions.
+Then run `/personalize`.
 
-## How CLAUDE.md Works
+#### Path 3: Git CLI (classic)
 
-`CLAUDE.md` is the heart of this setup. It's a Markdown file that Claude Code reads automatically when you start a session. It contains:
-
-- **Your identity**: Role, company, product area
-- **Company context**: What your company does, who uses your product
-- **Vault conventions**: File naming, folder structure, tags
-- **MCP configuration**: Which servers are available and how to use them
-- **Skill reference**: What each skill does and when to use it
-- **Behavioral instructions**: How Claude should work with your vault
-
-Think of it as the operating system for your AI assistant. The more context you put in, the less you need to explain in each conversation.
-
-## Extending the Workspace
-
-### Build Your Own Skills
-
-Skills are Markdown files in `.claude/skills/[name]/SKILL.md`. Each skill has:
-
-1. **Frontmatter**: Name and description (how Claude discovers the skill)
-2. **Workflow**: Step-by-step instructions for Claude to follow
-3. **Output format**: What the result should look like
-
-Ideas for skills you can build:
-
-- **`/initiative`**: Track product initiatives by pulling status from external repos
-- **`/retro`**: Sprint or quarterly retrospective that analyzes recent journals and meeting notes
-- **`/standup`**: Generate daily standup summary from yesterday's journal and today's plan
-
-### Add MCP Integrations
-
-Any MCP-compatible tool can be added:
+Best for: developers.
 
 ```bash
-claude mcp add [name] --transport streamable-http --url [url]
+gh repo create my-pm-workspace --private --template aleksander-dytko/ai-pm-workspace
+gh repo clone my-pm-workspace
+cd my-pm-workspace
+claude   # run Claude Code
 ```
 
-Examples: Notion, Linear, Jira, Confluence, your company's internal docs API.
+Then run `/personalize`.
 
-### Customize Templates
+### What `/personalize` does
 
-Edit files in `templates/` to match your preferred note structure. Skills reference these templates when creating new notes.
+- **Quick** (default, 3 min): asks your name, role, focus area, and team. Fills `CLAUDE.md` identity. Ships working skills.
+- **Deep** (10 min): everything above, plus MCP detection, initiative setup, and people profiles. Run `/personalize --deep` when you want more context.
+
+## Going deeper
+
+Once `/personalize` is done, try:
+
+1. `/today` - morning planning or evening close-out.
+2. `/meeting` - process a raw meeting note into a structured one.
+3. `/decision` - document a product decision with full context.
+4. `/communicate` - draft a Slack, email, or async update.
+5. `/weekly-plan` - Sunday/Monday planning with an overplanning challenge.
+
+When you're ready, `/personalize --deep` adds MCP integration, initiatives, and people profiles.
+
+## How CLAUDE.md works
+
+[`CLAUDE.md`](CLAUDE.md) is the single most important file in this setup. Claude Code reads it at the start of every session, so it always knows:
+
+- Your identity (role, company, focus area)
+- How your vault is organized (folders, naming conventions)
+- Quality standards for notes, decisions, and communications
+- Interaction rules (never-write-tasks-without-confirming, no em-dashes, etc.)
+- Which skills exist and when to use them
+
+The more context you put into `CLAUDE.md`, the less you need to explain in each conversation. Deep dive: [Claude Has 5 Memory Layers](https://productpeak.substack.com/p/claude-has-5-memory-layers-most-people).
+
+## Extending the workspace
+
+### Build your own skills
+
+Skills are Markdown files in `.claude/skills/[name]/SKILL.md`. Each has:
+
+1. **Frontmatter**: `name` and `description` (how Claude discovers the skill).
+2. **Workflow**: step-by-step instructions.
+3. **Output format**: what the result should look like.
+
+Example skill ideas:
+
+- `/create-epic` - turn an idea into a structured epic draft.
+- `/user-journey` - build a persona-grounded user journey.
+- `/competitive-research` - sourced competitive matrix.
+- `/retro` - sprint or quarterly retrospective from journals and meeting notes.
+
+### Port skills from elsewhere
+
+There's a growing open-source library of PM skills you can borrow.
+
+- [phuryn/pm-skills](https://github.com/phuryn/pm-skills) - MIT-licensed skills covering discovery (opportunity-solution-tree, prioritization frameworks), GTM (battlecards, launch plans), analytics (cohort analysis, A/B test analysis), and more.
+
+To add a phuryn skill to your workspace, copy its folder into `.claude/skills/` and keep the attribution header. Then restart Claude Code.
+
+### Optional: sync tasks to Todoist
+
+This template keeps tasks in-repo (`Dashboard/tasks.md`) so you can start without any external tool. If you want Todoist sync later, see [docs/todoist-sync.md](docs/todoist-sync.md).
 
 ## Philosophy
 
-This workspace is built on three principles:
+Three principles:
 
-1. **Context over prompts**: When AI has deep context, the prompt barely matters. A simple "What should we do about X?" becomes a rich interaction because Claude already knows what X is.
+1. **Context over prompts**: when AI has deep context, the prompt barely matters. A simple "What should we do about X?" becomes a rich interaction because Claude already knows what X is.
+2. **Skills over conversations**: repeatable workflows shouldn't require re-explaining every time. Skills encode your process once and execute it consistently.
+3. **Your vault, your memory**: everything accumulates in Markdown files you own. No vendor lock-in, no cloud dependency for your knowledge.
 
-2. **Skills over conversations**: Repeatable workflows shouldn't require re-explaining every time. Skills encode your process once and execute it consistently.
+## Migrating from v1
 
-3. **Your vault, your memory**: Everything accumulates in Markdown files you own. No vendor lock-in, no cloud dependency for your knowledge. Claude reads what's there and gets smarter as your vault grows.
+If you cloned v1 (Todoist-coupled) and want to upgrade: see the migration notes in [CHANGELOG.md](CHANGELOG.md). The short version: tasks now live in `Dashboard/tasks.md` instead of Todoist, and four skills (`/end-of-day`, `/process-inbox`, `/slack-thread`, and parts of `/personalize`) were either merged or removed. Your notes and journals are unchanged.
 
 ## Contributing
 
 This is an open template. If you build skills, patterns, or integrations that others could use, PRs are welcome.
 
+Bugs, questions, or "I got stuck here" feedback: open an issue or run `/report` from within your workspace.
+
 ## License
 
-MIT
+MIT - see [LICENSE](LICENSE).

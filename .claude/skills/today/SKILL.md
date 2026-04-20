@@ -1,174 +1,79 @@
 ---
 name: today
-description: Morning daily planning - fill journal, review Todoist, plan focus items
+description: Daily planning - morning (fill journal, plan focus) or evening (close-out, prep tomorrow)
+argument-hint: "[morning | evening]"
 ---
 
 # Plan Today
 
-You are helping the user plan their day each morning through an interactive flow that fills their Obsidian daily journal and organizes Todoist tasks.
+You help the user run a morning ritual (plan focus items) or an evening ritual (close-out and prep tomorrow). Both modes write to the daily journal and to `Dashboard/tasks.md`.
 
-## Input
+## Mode selection
 
-The user invokes this skill (typically in the morning) without arguments.
+Check `$ARGUMENTS`:
+- `morning` (or no argument before 4 PM local time): morning mode
+- `evening` (or no argument after 4 PM local time): evening mode
 
-## Speed Principles
-
-This skill should be FAST. Minimize round-trips:
-- **Max 3 interactive rounds** (personal questions -> calendar + triage -> focus confirmation)
-- **All data fetched before asking anything** - no mid-conversation fetches visible to user
-- **Recommendations only after seeing calendar** - never suggest focus tasks without knowing the meeting load
-
-## Workflow
-
-### Phase 1: Parallel Setup + Personal Questions
-
-**1a. Fetch EVERYTHING in parallel before asking (no user interaction)**
-
-Do ALL of these simultaneously:
-- Check if `journals/YYYY/MM-Month/DD-MM-YYYY.md` exists (month folder format: `02-February`)
-- Read yesterday's journal for hints (mood, energy, activities)
-  - Extract "Tomorrow I start with" from yesterday's end-of-day section (if filled) -> use as first focus hint in Phase 3
-- If today's journal doesn't exist, create it using the template (see `templates/daily-note.md`)
-- If it exists, read it to see what's already filled
-- **Todoist today + overdue**: `mcp__todoist__find-tasks-by-date` with `startDate: "today"`
-- **Todoist inbox**: `mcp__todoist__find-tasks` for tasks without a project
-- **Weekly P-Tasks**: Read `Dashboard/Weekly P-Tasks.md`, extract current week's section
-- **Inbox check**: If `Inbox/` folder exists, count files (excluding `.gitkeep`)
-
-Only AFTER all fetches complete, ask personal questions.
-
-**1b. Ask personal questions in ONE AskUserQuestion (3-4 questions)**
-
-Use yesterday's journal values as hints. This is the only personal question round.
-
-**Questions** (3-4 in AskUserQuestion):
-
-1. **Mood** (1-10): "How are you feeling today? (mood 1-10)"
-   - Hint with yesterday's mood if available
-   - Options: "3-4 (rough)", "5-6 (okay)", "7-8 (good)", "9-10 (great)"
-
-2. **Energy** (1-10): "What's your energy level? (1-10)"
-   - Hint with yesterday's energy if available
-   - Options: "3-4 (low)", "5-6 (medium)", "7-8 (high)", "9-10 (full power)"
-
-3. **Self-care**: "What did you do for yourself before work?"
-   - Options: "Exercise / run", "Walk", "Nothing special", Other (free text)
-
-4. **Yesterday evening**: "How was yesterday after work?"
-   - Options: "Relaxing, no stress", "Active (workout / outing)", "Stressful / tough", Other (free text)
-
-**After receiving answers:**
-- Update frontmatter `mood` and `energy`
-- Fill yesterday and today personal sections in the journal
-- If mood < 6 or energy < 6: set `low_energy = true`
-
-### Phase 2: Data Overview + Calendar (1 dedicated round)
-
-**2a. Present all fetched data + ask for calendar**
-
-Show pre-fetched data and ask for the calendar:
-
-If Inbox/ has files, add at the top:
-```
-📥 Inbox: [N] unprocessed notes - run /process-inbox to route them
-```
-
-```
-Data ready - paste your calendar screenshot (and note what to do with overdue/inbox):
+If unclear, ask the user once: "Morning planning or evening close-out?"
 
 ---
-📋 Todoist - Today (N):
-- [task] (p1)
-- [task] (p3)
 
-⏰ Overdue (N):
-- [task] (due Monday) - today / this week / next week / delete?
+## Morning mode
 
-📥 Inbox (N):
-- [task] - assign to project / delete?
+### Phase 1: Parallel data gather (no user interaction)
 
-📅 P-Tasks this week:
-P1: [task] [status]
-P2: [task] [status]
-...
-```
+Do ALL of these before asking anything:
 
-Wait for: calendar screenshot + triage decisions in one message.
+- Check if `journals/YYYY/MM-Month/DD-MM-YYYY.md` exists (month folder format: `02-February`).
+- Read yesterday's journal: mood, energy, activities, "Tomorrow I start with" (if filled).
+- If today's journal doesn't exist, create it from `templates/daily-note.md`.
+- Read `Dashboard/tasks.md` - extract the "This week" section.
+- Read `Dashboard/Weekly P-Tasks.md` - extract the current week's P-tasks.
 
-**2b. After receiving calendar + triage decisions:**
-- Analyze calendar: extract meetings, calculate total meeting time, calculate focus time, flag if >50% day in meetings
-- Execute triage immediately (reschedule/move/delete via Todoist MCP)
+### Phase 2: Personal questions (one AskUserQuestion, 3-4 questions)
 
-### Phase 3: Focus Planning + Confirmation (1 round-trip)
+Use yesterday's values as hints.
 
-**3a. Synthesize daily plan**
+1. **Mood** (1-10) - hint with yesterday's mood.
+   Options: "3-4 (rough)", "5-6 (okay)", "7-8 (good)", "9-10 (great)"
+2. **Energy** (1-10) - hint with yesterday's energy.
+   Options: "3-4 (low)", "5-6 (medium)", "7-8 (high)", "9-10 (full power)"
+3. **Self-care**: "What did you do for yourself before work?"
+   Options: "Exercise / run", "Walk", "Nothing special"
+4. **Yesterday evening**: "How was yesterday after work?"
+   Options: "Relaxing, no stress", "Active (workout / outing)", "Stressful / tough"
 
-Based on all context (mood/energy, calendar, Todoist, P-Tasks):
+Update the journal's frontmatter `mood` and `energy`, and fill yesterday + today personal sections.
+
+If mood < 6 or energy < 6: set `low_energy = true`.
+
+### Phase 3: Calendar + focus planning (one round)
+
+Ask the user to paste their calendar for the day (screenshot or text list).
+
+After receiving the calendar:
+- Extract meetings, calculate meeting time, calculate focus time, flag if >50% of the day is in meetings.
+- Synthesize a daily plan from `Dashboard/tasks.md` "This week", current P-tasks, and calendar deadlines.
 
 **Suggest max 3 focus items** for "My focus today (max 3)":
-- If yesterday's end-of-day "Tomorrow I start with" was filled: use it as the **first suggested focus item**
-- Prioritize: hard deadlines > P1 tasks > meetings needing prep > P2 tasks > overdue
-- Focus items = outcome-oriented (what you'll FINISH, not just work on)
+- If yesterday's "Tomorrow I start with" was filled, use it as the first focus item.
+- Prioritize: hard deadlines > P1 tasks > meetings needing prep > overdue items.
+- Focus items should be outcome-oriented (what you'll FINISH, not just work on).
 
-**Suggest Todoist priority assignments with strict limits:**
-- **Max 1 task at P1** (Todoist `p1`) - the ONE most critical thing
-- **Max 2 tasks at P2** (Todoist `p1`) - high priority
-- **Max 3 tasks at P3** (Todoist `p2`) - medium
-- **Everything else at P4** (Todoist `p3`/`p4`)
+**Capacity rules:**
+- `low_energy`: max 2 focus items.
+- >50% meetings: reduce focus count.
+- Both: 1 focus item.
 
-**Capacity check:**
-- `low_energy`: max 2 focus items
-- >50% meetings: reduce focus count
-- Both: 1 focus item only
+Present the plan and ask: "Anything to change? If OK, I'll update your journal and mark tasks as today's focus."
 
-**Present:**
+### Phase 4: Apply (no interaction)
 
-```
-Plan for today:
+- Fill "My focus today (max 3)" in the journal.
+- For each focus item, if it corresponds to an entry in `Dashboard/tasks.md`, add ` 🎯` to the end of that line (marker meaning "today's focus"). Skills and the user can read this marker to spot today's work at a glance.
+- Ensure frontmatter `mood` and `energy` are set.
 
-Available focus time: ~Xh (N meetings, Zh total)
-Energy: Z/10 | Mood: W/10
-
-Focus (max 3):
-1. [Focus item 1] - hard deadline
-2. [Focus item 2]
-3. [Focus item 3]
-
-Todoist priorities:
-- P1 (max 1): [most critical task]
-- P2 (max 2): [task], [task]
-- P3 (max 3): [task], [task], [task]
-- P4 (rest): [task], [task]
-
-Anything to change? If OK, I'll update Todoist and the journal.
-```
-
-**3b. User confirms**
-
-If user adds too many items, challenge:
-```
-You have ~Xh of deep work time and Y tasks. That's ambitious.
-Which are truly critical for TODAY? The rest can wait.
-```
-
-### Phase 4: Execute Updates (no interaction)
-
-After confirmation, do ALL in parallel:
-
-**Todoist updates:**
-- Reprioritize existing tasks: `mcp__todoist__update-tasks`
-- Create new tasks for P-task work not in Todoist:
-  - Project and section per `shared/todoist-config.md`
-  - Due: today
-  - Priority: as confirmed (respecting limits)
-- Execute any remaining triage from Phase 2
-
-**Journal update:**
-- Fill "My focus today (max 3)" with confirmed items
-- Mark `[x] Tasks for today are planned and prioritized in Todoist.`
-- Ensure frontmatter `mood` and `energy` are set
-
-### Phase 5: Summary
+### Phase 5: Morning summary
 
 ```
 Planning done - [Day of week] [Date]
@@ -176,69 +81,97 @@ Planning done - [Day of week] [Date]
 Mood: X/10 | Energy: Y/10
 Focus time: ~Zh | Meetings: N
 
-Focus:
+Focus today:
 1. [item]
 2. [item]
 3. [item]
 
-Todoist: N tasks with priorities
-- P1: [task]
-- P2: [task], [task]
-- P3: [task], [task], [task]
-- P4: N others
-
-Overdue: N rescheduled | Inbox: N sorted
+Tasks marked 🎯 in Dashboard/tasks.md: N
 
 Updated: journals/YYYY/MM-Month/DD-MM-YYYY.md
 
----
-🌙 End of day - update your journal:
-- ✅ Today I finished: [what you actually completed]
-- ➡️ Tomorrow I start with: [one starting point]
-- 🔒 Work closed.
+See you this evening - run `/today evening` to close out.
 ```
 
 ---
 
-## Priority Limits (STRICT)
+## Evening mode
 
-Daily Todoist task priorities:
+### Phase 1: Parallel data gather (no user interaction)
 
-| Priority | Max tasks | Todoist value | Description |
-|----------|-----------|---------------|-------------|
-| P1 | 1 | `p1` | THE one most critical task |
-| P2 | 2 | `p1` | High priority (same Todoist level as P1 - Todoist has 4 levels vs 5 here) |
-| P3 | 3 | `p2` | Medium priority |
-| P4 | unlimited | `p3`/`p4` | Everything else |
+- Read today's journal - what was set as focus? Which "Notes" links are present?
+- Read `Dashboard/tasks.md` - which 🎯 tasks were completed (marked `[x]`)?
+- Check `Meetings/` for files matching today's date that look unstructured (no "Decisions" / "Action Items" sections).
 
-**NEVER exceed these limits.** If user wants more P1/P2 tasks, challenge them to pick.
+If today's journal doesn't exist, create it from `templates/daily-note.md`.
+
+### Phase 2: One AskUserQuestion (3-4 questions)
+
+1. **Energy + mood at end of day** (0-10 each): "How did you end the day?"
+2. **What did you finish today?** (free text) - suggest based on focus items + 🎯 completions as hints.
+3. **What will you start with tomorrow?** (free text - one thing).
+4. **Anything else to capture?** (optional free text; user can skip).
+
+### Phase 3: Fill "End of Day" section
+
+Update today's journal - find or append the `## End of Day` section:
+
+```markdown
+## End of Day
+
+- Energy: [Q1 energy]/10 | Mood: [Q1 mood]/10
+- Today I finished:
+  - [user's answer to Q2]
+- Tomorrow I start with:
+  - [user's answer to Q3]
+- Work closed.
+```
+
+If Q4 had content, append as a note below. Do NOT update frontmatter `mood` / `energy` - those reflect start-of-day state.
+
+### Phase 4: Flag unprocessed items
+
+If unprocessed meetings exist from today:
+```
+Unprocessed meetings from today:
+- [Title] ([time or filename])
+
+Run `/meeting` to process them.
+```
+
+If any 🎯 tasks are still open (not completed):
+```
+Open focus tasks (will carry over):
+- [task]
+- [task]
+```
+
+### Phase 5: Evening summary
+
+```
+Day closed!
+
+Energy: X/10 | Mood: Y/10
+Done: [brief from Q2]
+Tomorrow: [Q3 answer]
+
+[If unprocessed meetings]: Remember to run `/meeting` for: [titles]
+[If open focus tasks]: N tasks will carry over to tomorrow
+```
 
 ---
 
-## Error Recovery
+## Error recovery
 
-### If Todoist MCP fails
-- Continue with calendar + P-Tasks only
-- Note skipped steps, suggest manual Todoist check
-
-### If journal has unexpected format
-- Don't overwrite filled sections
-- Only fill empty sections
-- Mention pre-filled sections
-
-### If no yesterday's journal
-- Use generic hints
+- **Journal has unexpected format**: do not overwrite filled sections; only fill empty fields.
+- **`Dashboard/tasks.md` missing**: create it from the template structure (three sections: This week / Next / Backlog) and proceed.
+- **No calendar provided**: proceed with focus items from P-tasks only; note reduced confidence.
+- **No yesterday's journal**: use generic hints for Phase 2 morning questions.
 
 ---
 
 ## Notes
 
-### Capacity Rules
-- Energy < 6 OR mood < 6: max 2 focus items
-- Calendar >50% meetings: reduce focus count
-- Both: 1 focus item only
-- Declining energy trend (last 2-3 days): flag burnout risk
-
-### Todoist IDs
-
-See [shared/todoist-config.md](../shared/todoist-config.md).
+- Keep the skill fast: max 3 rounds in morning, 2 rounds in evening.
+- This skill has no external dependencies - no MCP required.
+- The 🎯 marker in `Dashboard/tasks.md` signals "today's focus"; the user and other skills can rely on it.

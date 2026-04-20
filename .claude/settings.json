@@ -29,7 +29,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 -c \"import sys,json; d=json.load(sys.stdin); fp=d.get('file_path','') or d.get('tool_input',{}).get('file_path',''); print('REMINDER: Verify naming convention (Meetings -> YYYY-MM-DD - [Title].md | Loose Notes/Work -> YYYY-MM-DD - [Type] - [Title].md | Projects -> [project-name].md) and link this file in today\\'s journal under ## Notes.') if any(x in fp for x in ['/Meetings/','/Loose Notes/Work/','/Projects/']) else None\""
+            "command": "python3 -c \"import sys,json; d=json.load(sys.stdin); fp=d.get('file_path','') or d.get('tool_input',{}).get('file_path',''); print('REMINDER: Verify naming convention (Meetings -> YYYY-MM-DD - [Title].md | Loose Notes/Work -> YYYY-MM-DD - [Type] - [Title].md | Initiatives -> [initiative-slug].md) and link this file in today\\'s journal under ## Notes.') if any(x in fp for x in ['/Meetings/','/Loose Notes/Work/','/Initiatives/']) else None\""
           }
         ]
       }
