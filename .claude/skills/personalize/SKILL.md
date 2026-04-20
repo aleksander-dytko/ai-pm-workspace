@@ -1,6 +1,6 @@
 ---
 name: personalize
-description: Customize this workspace to your role, company, and tools - quick (2 min) or deep (10 min)
+description: Customize this workspace to your role, company, and tools - quick (3 min) or deep (10 min)
 argument-hint: "[quick | deep]"
 ---
 

@@ -94,7 +94,6 @@ Priority, due date, and source are all optional.
 |-- Loose Notes/
 |   `-- Work/              # Decisions, drafts, analysis
 |-- Meetings/              # Meeting notes
-|-- samples/               # Sample data for /guide modules
 |-- templates/             # Note templates
 |-- docs/                  # Reference docs (epic lifecycle, optional Todoist sync)
 `-- CLAUDE.md              # This file
