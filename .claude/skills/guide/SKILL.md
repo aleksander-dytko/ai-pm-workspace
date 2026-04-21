@@ -8,6 +8,14 @@ argument-hint: "[module number 1-8, or 'next', or 'reset']"
 
 An interactive tour through the shipped skills. Each module teaches one skill by running it against sample data in `samples/`. Designed for PMs, designers, analysts, or engineers - the skill adapts framing to the role set in `CLAUDE.md`.
 
+## Pre-emit checklist (run BEFORE every chat message in this skill)
+
+Before you send any message while `/guide` is active, audit your draft against these rules. If any fails, fix it before sending.
+
+1. **Vault paths are backticked.** Any token that looks like a file path (contains `/` or ends in `.md`) must be wrapped in backticks so Claude Code renders it as a clickable reference. Examples: `` `Dashboard/tasks.md` ``, `` `samples/sample-meeting-transcript.md` ``, `` `Meetings/2026-04-15 - Sync.md` ``, `` `journals/2026/04-April/22-04-2026.md` ``. A path without backticks is a bug - it renders as plain text and the user can't click it.
+2. **File-argument commands use `@`.** When you tell the user how to run a skill with a file input, the path must be `@`-prefixed so Claude Code's file autocomplete activates: `` `/meeting @samples/sample-meeting-transcript.md` ``, not `` `/meeting samples/sample-meeting-transcript.md` ``.
+3. **Gate order is preserved.** If you're on an orientation / resume / numeric-jump turn, the message must end with the `Ready to start Module N? (y/n/skip)` prompt and nothing else - no preview of the module intro on the same turn.
+
 ## Progress tracking
 
 Progress is stored in `.claude/memory/guide-progress.md`. The `.claude/memory/` directory ships with the template (see its `README.md`), so do NOT run `mkdir` or `ls` to check - use the `Read` tool directly, and if Read returns "file does not exist", treat it as a first run and create the file with `Write`.

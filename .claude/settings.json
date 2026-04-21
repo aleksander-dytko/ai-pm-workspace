@@ -7,8 +7,11 @@
       "Glob",
       "Grep",
       "Write(.claude/memory/**)",
+      "Write(**/.claude/memory/**)",
       "Edit(.claude/memory/**)",
+      "Edit(**/.claude/memory/**)",
       "Read(.claude/memory/**)",
+      "Read(**/.claude/memory/**)",
       "Write(Meetings/**)",
       "Write(Loose Notes/**)",
       "Write(Initiatives/**)",
@@ -31,7 +34,7 @@
       "ReadMcpResourceTool"
     ],
     "deny": [
-      "Bash(rm *)"
+
     ]
   },
   "hooks": {
