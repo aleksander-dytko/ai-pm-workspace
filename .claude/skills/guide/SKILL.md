@@ -35,11 +35,52 @@ Mark a module complete (`[x]`) once the user finishes it.
 ## Mode selection
 
 Check `$ARGUMENTS`:
-- Empty or `next`: continue from where the user left off (first unchecked module in `guide-progress.md`).
-- A number 1-8: jump to that module.
-- `reset`: delete `guide-progress.md` and start from module 1.
+- Empty or `next`:
+  - **If `guide-progress.md` does not exist** (first run): show the **first-run orientation** below, create the progress file, then ask "Ready to start Module 1? (y/n/skip)". Do NOT skip the orientation.
+  - **If `guide-progress.md` exists**: show the **resume orientation** (one-liner: "You're on Module N of 8. [Module title]. Use `/guide <n>` to jump, `/guide reset` to start over."), then ask "Ready to start Module N? (y/n/skip)".
+- A number 1-8: jump straight to that module (no orientation) and ask "Ready to start Module [N]? (y/n/skip)".
+- `reset`: delete `guide-progress.md`, confirm reset in one line, then show the **first-run orientation** and start at Module 1.
 
 At the start of any module, ask: "Ready to start Module [N]? (y/n/skip)". If the user says skip, mark it done and move to the next.
+
+---
+
+## First-run orientation
+
+Show this on the first run (or after `reset`) before asking about Module 1. Keep it tight - a welcome, the full module list, and the commands. Do not turn it into a lecture.
+
+```
+Welcome to /guide - an interactive tour of the shipped skills.
+
+What this is:
+- 8 short modules, each teaching one skill by running it against sample data in samples/.
+- Designed to be done over days, not one sitting. 1-2 modules per session is comfortable. About 5-10 minutes per module.
+- Progress is saved in .claude/memory/guide-progress.md so you can stop and resume.
+- Your role from CLAUDE.md is used to adapt the framing (PM / designer / analyst / engineer).
+
+The 8 modules:
+1. /meeting                   - turn raw meeting notes into a structured note + tasks
+2. /today morning             - daily planning (mood, energy, focus items)
+3. /decision                  - document a product decision with options + trade-offs
+4. /communicate               - draft a Slack / email / async update for the right audience
+5. /create-epic               - turn a raw idea into a structured epic draft
+6. /competitive-research      - build a sourced competitive matrix
+7. Capstone                   - chain /meeting -> /decision -> /communicate on one flow
+8. Extend your workspace      - run /opportunity-solution-tree, add or write new skills
+
+How to use:
+- /guide           continue from where you left off (or start at Module 1 the first time)
+- /guide next      same as above
+- /guide <n>       jump to a specific module (e.g. /guide 3)
+- /guide reset     wipe progress and start over
+
+Inside a module you can answer:
+- y        run the module now
+- n        stop here (resume later with /guide)
+- skip     mark it done and move to the next module
+```
+
+After this block, ask: "Ready to start Module 1? (y/n/skip)".
 
 ## Role adaptation
 
