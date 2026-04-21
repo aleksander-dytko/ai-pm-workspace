@@ -179,6 +179,7 @@ P-Tasks go into `Dashboard/Weekly P-Tasks.md`. Their subtasks and standalone tas
 ### Formatting
 - **Never use the em-dash character (Unicode U+2014).** Always use a regular hyphen (`-`).
 - **Slack**: single-asterisk bold (`*bold*`), `-` bullets, `:emoji_name:` format.
+- **File references in chat output**: always wrap vault paths in backticks, e.g. `` `Meetings/2026-04-15 - Quarterly sync.md` ``. Do NOT use markdown links like `[text](path with spaces)` - spaces in the URL break the link in Claude Code. Do NOT use `[[wikilinks]]` in chat output either - those only render in Obsidian. Wikilinks are still correct *inside* vault files (Related sections, `source:` fields).
 
 ### Style
 - Lead with the action or answer, not the reasoning.
