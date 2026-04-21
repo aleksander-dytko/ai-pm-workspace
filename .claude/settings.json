@@ -7,8 +7,17 @@
       "Glob",
       "Grep",
       "Write(.claude/memory/**)",
+      "Write(**/.claude/memory/**)",
+      "Write(.claude/memory/guide-progress.md)",
+      "Write(**/.claude/memory/guide-progress.md)",
+      "Write(guide-progress.md)",
       "Edit(.claude/memory/**)",
+      "Edit(**/.claude/memory/**)",
+      "Edit(.claude/memory/guide-progress.md)",
+      "Edit(**/.claude/memory/guide-progress.md)",
+      "Edit(guide-progress.md)",
       "Read(.claude/memory/**)",
+      "Read(**/.claude/memory/**)",
       "Write(Meetings/**)",
       "Write(Loose Notes/**)",
       "Write(Initiatives/**)",
@@ -31,7 +40,7 @@
       "ReadMcpResourceTool"
     ],
     "deny": [
-      "Bash(rm *)"
+
     ]
   },
   "hooks": {
