@@ -75,23 +75,11 @@ Present the plan and ask: "Anything to change? If OK, I'll update your journal a
 
 ### Phase 5: Morning summary
 
-```
-Planning done - [Day of week] [Date]
+Write a short conversational summary, **not** a code-fenced template card. Two or three sentences max. Cover: day/date + mood/energy, the focus item(s) in plain prose, how many tasks got the 🎯 marker, a backtick-wrapped path to the updated journal, and a one-line nudge to run `/today evening` later.
 
-Mood: X/10 | Energy: Y/10
-Focus time: ~Zh | Meetings: N
+Example tone (do not copy verbatim):
 
-Focus today:
-1. [item]
-2. [item]
-3. [item]
-
-Tasks marked 🎯 in Dashboard/tasks.md: N
-
-Updated: journals/YYYY/MM-Month/DD-MM-YYYY.md
-
-See you this evening - run `/today evening` to close out.
-```
+> Planning done for Tuesday, 21 April - running at 4/10 mood and 4/10 energy, with ~5h of focus time around three meetings. Today's single focus: finish the sequencing decision note (overdue from Friday). I marked it 🎯 in `Dashboard/tasks.md` and updated `journals/2026/04-April/21-04-2026.md`. Catch you this evening - run `/today evening` to close out.
 
 ---
 
@@ -148,16 +136,11 @@ Open focus tasks (will carry over):
 
 ### Phase 5: Evening summary
 
-```
-Day closed!
+Write a short conversational close-out, **not** a code-fenced template card. Two or three sentences: end-of-day mood/energy, what got done (brief), what starts tomorrow, and any carry-overs (unprocessed meetings or open 🎯 tasks). Use backtick-wrapped paths for any file references.
 
-Energy: X/10 | Mood: Y/10
-Done: [brief from Q2]
-Tomorrow: [Q3 answer]
+Example tone (do not copy verbatim):
 
-[If unprocessed meetings]: Remember to run `/meeting` for: [titles]
-[If open focus tasks]: N tasks will carry over to tomorrow
-```
+> Day closed - ended at 6/10 mood, 5/10 energy. Shipped the sequencing decision and got half of the auth write-up drafted. Tomorrow starts with finishing that write-up. One unprocessed meeting from today (`Meetings/2026-04-21 - Design review.md`) - run `/meeting` when you're ready for it.
 
 ---
 

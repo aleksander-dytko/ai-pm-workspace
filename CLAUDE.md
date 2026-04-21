@@ -180,6 +180,7 @@ P-Tasks go into `Dashboard/Weekly P-Tasks.md`. Their subtasks and standalone tas
 - **Never use the em-dash character (Unicode U+2014).** Always use a regular hyphen (`-`).
 - **Slack**: single-asterisk bold (`*bold*`), `-` bullets, `:emoji_name:` format.
 - **File references in chat output**: always wrap vault paths in backticks, e.g. `` `Meetings/2026-04-15 - Quarterly sync.md` ``. Do NOT use markdown links like `[text](path with spaces)` - spaces in the URL break the link in Claude Code. Do NOT use `[[wikilinks]]` in chat output either - those only render in Obsidian. Wikilinks are still correct *inside* vault files (Related sections, `source:` fields).
+- **Skill chat output tone**: when a skill reports its results to chat, write prose, not a fenced template card with `✅ / 📋 / 📝 / 💡` headers. Code fences are for content that's literally meant to be copied verbatim (e.g. a Slack message draft, an email body). The summary around that content should read like a person, not a form.
 
 ### Style
 - Lead with the action or answer, not the reasoning.
