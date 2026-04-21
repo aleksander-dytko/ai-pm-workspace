@@ -95,6 +95,50 @@ Keep the same underlying skills; just reframe the examples and language so the u
 
 ---
 
+## Guidance along the way
+
+Every module follows the same shape. Do not skip any of these steps - the user relies on them for orientation.
+
+**At the start of a module, print a short intro:**
+
+```
+Module [N] of 8: [Title]
+Time: ~5-10 min
+What you'll do:
+- [one-line action]
+- [one-line action]
+Why this matters: [one sentence on the real-world problem this solves]
+```
+
+Then ask: "Ready to start Module [N]? (y / n / skip)".
+
+**While running the module:**
+- Before each step that runs another skill or writes a file, tell the user what's about to happen in one line (e.g., "I'm going to run /meeting on the sample transcript now and propose tasks - you'll confirm before anything is written").
+- Respect every skill's own confirm-before-writing rules. Never write tasks without confirmation.
+- If the user asks a question mid-module, answer it and then return to where you were.
+
+**At the end of a module, print a recap + progress block:**
+
+```
+Module [N] complete.  [✓✓✓······] N/8 done
+
+What you just did:
+- [1-2 bullets naming the concrete artifacts created]
+
+What you learned:
+- [one-sentence takeaway about when to reach for this skill in real work]
+
+Next up: Module [N+1] - [Title]. [one-line hook].
+
+Say `next` to continue, stop here and I'll resume with `/guide` next time, or `/guide <n>` to jump.
+```
+
+(For Module 8, replace "Next up" with the "Congratulations - you've completed /guide" block already in this file.)
+
+Mark the module done in `.claude/memory/guide-progress.md` after the recap.
+
+---
+
 ## Module 1: Your first meeting note
 
 **What `/meeting` does**: turns raw notes from a meeting into a structured note with decisions, action items, and a list of follow-up tasks for you.
@@ -113,9 +157,9 @@ Keep the same underlying skills; just reframe the examples and language so the u
 - A new task in `Dashboard/tasks.md` under "This week" sourced from the meeting.
 - A link added to today's journal under `## Notes` (if today's journal exists).
 
-**Next**: module 2 teaches the morning planning ritual. Say `next` or `/guide 2` when ready.
+**Recap hook for Module 1**: takeaway is "when raw notes hit your inbox, reach for /meeting instead of copy-pasting into a doc - it extracts commitments you'd otherwise forget." Next module hook: "Morning planning - pick 3 focus items, not 10."
 
-Mark module 1 done in `guide-progress.md`.
+Then print the end-of-module recap block from the "Guidance along the way" section.
 
 ---
 
@@ -136,7 +180,9 @@ Mark module 1 done in `guide-progress.md`.
 - A filled journal at `journals/YYYY/MM-Month/DD-MM-YYYY.md` with mood, energy, self-care, and "My focus today".
 - A 🎯 marker added to the task(s) you picked as focus in `Dashboard/tasks.md`.
 
-**Next**: module 3 teaches how to document a decision so it doesn't get lost in Slack.
+**Recap hook for Module 2**: takeaway is "a 3-focus-item day beats a 10-task wish list - /today morning forces the prioritization." Next module hook: "Document a decision so it doesn't get lost in Slack."
+
+Then print the end-of-module recap block.
 
 ---
 
@@ -159,7 +205,9 @@ Mark module 1 done in `guide-progress.md`.
 - A link in today's journal.
 - Tasks added to `Dashboard/tasks.md`.
 
-**Next**: module 4 teaches how to draft a crisp async update that fits the audience.
+**Recap hook for Module 3**: takeaway is "when a decision happens in Slack or a meeting, the only way it survives the next quarter is a decision note - /decision makes it a 5-minute habit, not a project." Next module hook: "Draft a crisp async update that already knows the context."
+
+Then print the end-of-module recap block.
 
 ---
 
@@ -183,7 +231,9 @@ Mark module 1 done in `guide-progress.md`.
 - Run again with `- email` at the end for an email draft.
 - Run again with `- async doc` for an inverted-pyramid written update.
 
-**Next**: module 5 teaches how to go from a raw idea to a structured epic.
+**Recap hook for Module 4**: takeaway is "stop re-explaining context - /communicate pulls from the vault you've been building, matches the channel's format, and hands you a ready-to-paste draft." Next module hook: "Go from raw idea to a structured epic in one command."
+
+Then print the end-of-module recap block.
 
 ---
 
@@ -207,7 +257,9 @@ Mark module 1 done in `guide-progress.md`.
 
 **Designers**: the same skill works for drafting a design brief - swap "epic" for "design brief" mentally, and use section 1 (Value Prop) + section 2 (User Problem) + section 7 (Design Planning) as your main canvas.
 
-**Next**: module 6 teaches how to gather competitive evidence before locking in a direction.
+**Recap hook for Module 5**: takeaway is "most ideas die in the gap between 'we should think about that' and a document someone can review - /create-epic closes that gap in one command." Next module hook: "Gather competitive evidence before locking in a direction."
+
+Then print the end-of-module recap block.
 
 ---
 
@@ -230,7 +282,9 @@ Mark module 1 done in `guide-progress.md`.
 - Every cell is marked `observed:` or `inferred:`.
 - A methodology section calls out gaps and confidence level.
 
-**Next**: the capstone chains three skills together on a realistic meeting.
+**Recap hook for Module 6**: takeaway is "opinion-driven 'what competitors do' breaks in leadership reviews - /competitive-research forces every claim to have a source, which is what makes the matrix useful." Next module hook: "Capstone - chain /meeting, /decision, and /communicate on one realistic flow."
+
+Then print the end-of-module recap block.
 
 ---
 
@@ -263,7 +317,9 @@ All three link to each other; follow-up tasks from each land in `Dashboard/tasks
 
 **Observation**: notice how each skill used the artifacts of the previous one. This is the power of the vault-as-memory pattern. You didn't re-explain context at any step.
 
-**Next**: module 8 teaches how to extend your workspace with more skills.
+**Recap hook for Module 7**: takeaway is "real PM work chains skills - the vault becomes memory so each skill builds on the last without you re-explaining anything. This is the payoff pattern." Next module hook: "Extend your workspace - run an external skill, install more, write your own."
+
+Then print the end-of-module recap block.
 
 ---
 
