@@ -73,6 +73,8 @@ Initialize `Dashboard/Weekly P-Tasks.md` with the current week header (if empty)
 
 ### Phase 4: Summary
 
+Structure the summary so `/guide` is the headline recommendation (with a short explanation), direct skills come next as alternatives, and `/personalize --deep` is mentioned last as an optional richer setup.
+
 ```
 Workspace personalized (quick).
 
@@ -82,21 +84,26 @@ Filled CLAUDE.md identity:
 - Company: [company]
 - Focus: [focus area]
 
-You're ready. Try:
-
-1. /today          plan your day
-2. /meeting        process a meeting transcript into a structured note
-3. /decision       document a product decision with context
-4. /weekly-plan    weekly priorities (best on Sunday/Monday)
-5. /communicate    draft a Slack, email, or async update
-
-When you want to go deeper (MCP setup, initiatives, people profiles):
-
-  /personalize --deep
-
-Or start the guided tour:
+Recommended first step:
 
   /guide
+
+An 8-module interactive learning path through the shipped skills, adapted to your role. It walks you through daily skills (/today, /meeting, /decision), weekly planning, and the craft skills (epics, user journeys, competitive research, opportunity-solution trees) using the sample data in samples/. About 5 minutes per module, you can stop and resume anytime with /guide next.
+
+Or jump straight into a skill:
+
+1. /today                       plan your day
+2. /meeting                     process a meeting transcript
+3. /decision                    document a product decision
+4. /weekly-plan                 weekly priorities (best Monday/Friday)
+5. /communicate                 draft a Slack, email, or async update
+6. /create-epic                 turn an idea into an epic draft
+7. /opportunity-solution-tree   structure discovery with Teresa Torres' OST
+8. /competitive-research        sourced competitive matrix on a topic
+
+For a richer setup (MCP detection, initiatives, people profiles):
+
+  /personalize --deep
 ```
 
 ---
@@ -227,12 +234,19 @@ Filled:
 [if people] - People profiles: N profiles in Dashboard/people-profiles.md
 [if mixed lang] - Language rules: [language] for personal, English for work
 
-Next steps:
+Recommended first step:
 
-1. /guide          interactive learning path (recommended)
-2. /today          plan today
-3. /meeting        process a meeting
-4. /decision       document a decision
+  /guide
+
+An 8-module interactive learning path through the shipped skills, adapted to your role. Walks you through daily, weekly, and craft skills using the sample data in samples/. ~5 min per module, resume anytime with /guide next.
+
+Or jump straight into a skill:
+
+1. /today                       plan today
+2. /meeting                     process a meeting
+3. /decision                    document a decision
+4. /create-epic                 draft an epic from an idea
+5. /opportunity-solution-tree   structure discovery with an OST
 
 Run /personalize --deep again anytime to refresh or add more context.
 ```
