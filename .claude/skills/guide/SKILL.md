@@ -107,8 +107,9 @@ Every module follows the same shape:
 
 - Module N of 8, title, rough time (~5-10 min).
 - One-line hook: what the user will walk away with.
-- The sample file that goes with this module (exact path) - invite the user to open it and skim.
+- The sample file that goes with this module (exact path) - invite the user to open it and skim. Mention that in Claude Code they can type `@` to get a file-picker autocomplete (e.g. `@samples/sample-meeting-transcript.md`) if they want to attach the file reference instead of typing the path.
 - How they can run the skill: tell them the exact command (e.g. `/meeting samples/sample-meeting-transcript.md`), and say they can either run it themselves or ask you to run it for them.
+- **A short "in real work" note** - how the user would use this skill with their own data, not the sample. The shape of this note depends on the skill: for file-based skills (`/meeting`, `/create-epic`, `/competitive-research`) list the input options (existing file, browse, paste). For ritual skills (`/today morning/evening`, `/weekly-plan`) describe what the user provides when they're doing it for real (a calendar screenshot, honest mood/energy, their actual tasks). For context-pulling skills (`/decision`, `/communicate`) describe what the user pastes or references.
 
 Example of the tone (do not copy verbatim - write it fresh for each module):
 

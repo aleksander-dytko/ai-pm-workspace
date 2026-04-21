@@ -104,25 +104,30 @@ date: YYYY-MM-DD
 
 ## Output Format
 
-```
-✅ Decision note created: [[YYYY-MM-DD - Decision - Topic]]
-✅ Linked in today's journal
+Report results in conversational prose, not a fenced template card. Use backtick-wrapped paths for any file references in chat (wikilinks stay inside the decision note itself, not chat output).
 
-📊 Context gathered:
-- [N] related notes/meetings
-- [N] GitHub issues/PRs
+Cover these beats in 3-4 sentences of prose:
+- Where the decision note was written (backtick path to the new file in `Loose Notes/Work/`).
+- Whether it was linked in today's journal (or "skipped - no journal for today").
+- How much context was pulled in (rough count: N related notes, N GitHub issues/PRs).
+- Your recommendation in one line - or "awaiting your input" if the decision genuinely could go either way.
 
-📝 Communication draft:
-[Message ready to copy-paste]
+Then show the communication draft (this one stays fenced - it's copy-paste content) and the proposed follow-up tasks as a numbered list so the user can approve with `y` / `n` / picking numbers.
 
-📋 Proposed follow-up tasks:
-- [ ] [Task 1] - P[N], due [date]
-- [ ] [Task 2] - P[N]
+Example tone:
 
-Confirm: Add tasks to Dashboard/tasks.md? (Y/N or edit)
-
-💡 Recommendation: [Your analysis-based recommendation, or "Awaiting your input"]
-```
+> Decision note written to `Loose Notes/Work/2026-04-21 - Decision - Invoice portal scope.md`, linked in today's journal. Pulled context from 3 related meeting notes and 2 GitHub issues. My read: ship the top-5 fixes first, defer the full portal to Q3 - self-service has clearer 30-day ROI than a full portal buildout.
+>
+> Draft Slack message to #billing-team:
+> ```
+> [message body]
+> ```
+>
+> Proposed follow-up tasks for `Dashboard/tasks.md`:
+> 1. Write spec for top-5 complaint fixes - P2, due 2026-04-28
+> 2. Book Q3 roadmap review for the portal scope - P3
+>
+> Add these? (Y / N / pick numbers)
 
 ## Notes
 
