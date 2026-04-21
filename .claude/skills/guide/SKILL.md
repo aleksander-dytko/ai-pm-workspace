@@ -10,7 +10,9 @@ An interactive tour through the shipped skills. Each module teaches one skill by
 
 ## Progress tracking
 
-Progress is stored in `.claude/memory/guide-progress.md`. If that file doesn't exist yet, create it with:
+Progress is stored in `.claude/memory/guide-progress.md`. The `.claude/memory/` directory ships with the template (see its `README.md`), so do NOT run `mkdir` or `ls` to check - use the `Read` tool directly, and if Read returns "file does not exist", treat it as a first run and create the file with `Write`.
+
+When you create the progress file for the first time, use this content:
 
 ```markdown
 ---
@@ -34,14 +36,14 @@ Mark a module complete (`[x]`) once the user finishes it.
 
 ## Mode selection
 
+Keep tool calls minimal and silent - no `Bash ls`, no `mkdir`, no "let me check..." narration. The user wants a coach, not a script.
+
 Check `$ARGUMENTS`:
 - Empty or `next`:
-  - **If `guide-progress.md` does not exist** (first run): show the **first-run orientation** below, create the progress file, then ask "Ready to start Module 1? (y/n/skip)". Do NOT skip the orientation.
-  - **If `guide-progress.md` exists**: show the **resume orientation** (one-liner: "You're on Module N of 8. [Module title]. Use `/guide <n>` to jump, `/guide reset` to start over."), then ask "Ready to start Module N? (y/n/skip)".
+  - Read `.claude/memory/guide-progress.md`. If Read returns "file does not exist", it's a first run: show the **first-run orientation**, create the progress file with `Write`, then ask "Ready to start Module 1? (y/n/skip)".
+  - If it exists: show the **resume orientation** (one line: "You're on Module N of 8 - [Module title]. `/guide <n>` to jump, `/guide reset` to start over."), then ask "Ready to start Module N? (y/n/skip)".
 - A number 1-8: jump straight to that module (no orientation) and ask "Ready to start Module [N]? (y/n/skip)".
 - `reset`: delete `guide-progress.md`, confirm reset in one line, then show the **first-run orientation** and start at Module 1.
-
-At the start of any module, ask: "Ready to start Module [N]? (y/n/skip)". If the user says skip, mark it done and move to the next.
 
 ---
 
@@ -97,45 +99,48 @@ Keep the same underlying skills; just reframe the examples and language so the u
 
 ## Guidance along the way
 
-Every module follows the same shape. Do not skip any of these steps - the user relies on them for orientation.
+Tone: you are a coach walking the user through real skills, not a script executing steps. The user drives; you narrate, point at things, and invoke skills only when asked. Write in conversational prose - avoid long bulleted blocks, avoid code-fenced "cards" that look like markdown templates, avoid running `ls`, `mkdir`, or any "let me verify the file exists" bash. Verify silently with `Read` if you must.
 
-**At the start of a module, print a short intro:**
+Every module follows the same shape:
 
-```
-Module [N] of 8: [Title]
-Time: ~5-10 min
-What you'll do:
-- [one-line action]
-- [one-line action]
-Why this matters: [one sentence on the real-world problem this solves]
-```
+**At the start of a module, write a short conversational intro** (do NOT wrap it in a code fence). Include these four beats as flowing sentences or a short bullet list, whichever reads better, but keep it tight:
 
-Then ask: "Ready to start Module [N]? (y / n / skip)".
+- Module N of 8, title, rough time (~5-10 min).
+- One-line hook: what the user will walk away with.
+- The sample file that goes with this module (exact path) - invite the user to open it and skim.
+- How they can run the skill: tell them the exact command (e.g. `/meeting samples/sample-meeting-transcript.md`), and say they can either run it themselves or ask you to run it for them.
+
+Example of the tone (do not copy verbatim - write it fresh for each module):
+
+> **Module 1 of 8 - Your first meeting note** (~5 min)
+>
+> `/meeting` turns a raw transcript into a structured note with decisions, action items, and follow-up tasks for `Dashboard/tasks.md`. It's the thing you reach for when notes land in your inbox after a call and you want them to survive past the week.
+>
+> The sample transcript lives at `samples/sample-meeting-transcript.md` - open it if you want to see the kind of input `/meeting` handles.
+>
+> When you're ready, run `/meeting samples/sample-meeting-transcript.md` yourself, or just tell me "run it" and I'll invoke it for you. Either way, the skill will ask you to confirm before writing any tasks.
+
+Then wait. Don't ask "Ready? (y/n/skip)" - that's script-like. The module starts when the user either runs the command themselves or tells you to. If they ask to skip, mark it done and move on. If they say "stop" or "later", stop and exit the skill.
 
 **While running the module:**
-- Before each step that runs another skill or writes a file, tell the user what's about to happen in one line (e.g., "I'm going to run /meeting on the sample transcript now and propose tasks - you'll confirm before anything is written").
-- Respect every skill's own confirm-before-writing rules. Never write tasks without confirmation.
-- If the user asks a question mid-module, answer it and then return to where you were.
 
-**At the end of a module, print a recap + progress block:**
+- Invoke the skill only when the user has asked you to. If the user runs it themselves, step back and let the other skill do its thing - resume the guide conversation once they return.
+- If you are invoking it on their behalf, narrate one short line first ("running `/meeting` on the sample - it'll ask you to confirm any tasks before writing").
+- If the user asks a question mid-module, answer it, then offer to resume.
+- Never create files, tasks, or notes without the per-skill confirmation the user has already agreed to.
 
-```
-Module [N] complete.  [✓✓✓······] N/8 done
+**At the end of a module, write a short conversational recap** (again, not in a code fence). Include:
 
-What you just did:
-- [1-2 bullets naming the concrete artifacts created]
+- A one-line "done" with a simple progress indicator (e.g. "Module 1 done - 1 of 8").
+- One or two lines on what was just created (real filenames the user can open).
+- One line on when they'd reach for this skill in real work (the takeaway).
+- A one-line nudge to the next module, naming it and its hook, followed by "say `next` when you're ready, or stop here and pick up later with `/guide`".
 
-What you learned:
-- [one-sentence takeaway about when to reach for this skill in real work]
+For Module 8, skip the "next module" nudge - use the existing "Congratulations - you've completed /guide" block already in this file.
 
-Next up: Module [N+1] - [Title]. [one-line hook].
+After the recap, update `.claude/memory/guide-progress.md` to mark the module done.
 
-Say `next` to continue, stop here and I'll resume with `/guide` next time, or `/guide <n>` to jump.
-```
-
-(For Module 8, replace "Next up" with the "Congratulations - you've completed /guide" block already in this file.)
-
-Mark the module done in `.claude/memory/guide-progress.md` after the recap.
+**Content in the module sections below is reference material, not a script.** Each module lists what the skill does, the sample file path, and what artifacts to expect. Use it to inform your own conversational narration - do not paste numbered "Try this" lists directly into the chat. The Module 1 section shows the right tone (look at its "How the module runs" block).
 
 ---
 
@@ -145,12 +150,9 @@ Mark the module done in `.claude/memory/guide-progress.md` after the recap.
 
 **Why it exists**: raw meeting notes rot. A structured note is searchable, links back to your journal, and surfaces the tasks you committed to without relying on your memory.
 
-**Try this**:
+**How the module runs** (write this to the user conversationally, do NOT copy the numbered list below):
 
-1. I'll create a sample meeting file at `samples/sample-meeting-transcript.md` if it's not already there.
-2. Run: `/meeting samples/sample-meeting-transcript.md`
-3. Watch the skill extract attendees, decisions, action items, and propose follow-up tasks for `Dashboard/tasks.md`.
-4. When asked to confirm, say yes to adding the tasks.
+The sample transcript already lives at `samples/sample-meeting-transcript.md`. Point the user at it and invite them to open/skim it first if they want to see the kind of input `/meeting` handles. Then tell them they can either run `/meeting samples/sample-meeting-transcript.md` themselves, or say "run it" and you'll invoke it for them. When the skill asks to confirm tasks, the user says y/n themselves - don't answer on their behalf.
 
 **See the artifact**:
 - A new file in `Meetings/` named `2026-04-XX - [title].md` (or similar) with structured sections.
