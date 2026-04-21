@@ -40,10 +40,12 @@ Keep tool calls minimal and silent - no `Bash ls`, no `mkdir`, no "let me check.
 
 Check `$ARGUMENTS`:
 - Empty or `next`:
-  - Read `.claude/memory/guide-progress.md`. If Read returns "file does not exist", it's a first run: show the **first-run orientation**, create the progress file with `Write`, then ask "Ready to start Module 1? (y/n/skip)".
-  - If it exists: show the **resume orientation** (one line: "You're on Module N of 8 - [Module title]. `/guide <n>` to jump, `/guide reset` to start over."), then ask "Ready to start Module N? (y/n/skip)".
-- A number 1-8: jump straight to that module (no orientation) and ask "Ready to start Module [N]? (y/n/skip)".
-- `reset`: delete `guide-progress.md`, confirm reset in one line, then show the **first-run orientation** and start at Module 1.
+  - Read `.claude/memory/guide-progress.md`. If Read returns "file does not exist", it's a first run: show the **first-run orientation**, create the progress file with `Write`, then ask "Ready to start Module 1? (y/n/skip)". On `y`, show the **Module 1 conversational intro** (see "Guidance along the way") and stop.
+  - If it exists: show the **resume orientation** (one line: "You're on Module N of 8 - [Module title]. `/guide <n>` to jump, `/guide reset` to start over."), then ask "Ready to start Module N? (y/n/skip)". On `y`, show the **Module N conversational intro** and stop.
+- A number 1-8: ask "Ready to start Module [N]? (y/n/skip)". On `y`, show the **Module N conversational intro** and stop.
+- `reset`: delete `guide-progress.md`, confirm reset in one line, then show the **first-run orientation**, ask "Ready to start Module 1? (y/n/skip)", and on `y` show the Module 1 intro.
+
+The "Ready?" prompt is the gate before the intro. Once the user answers `y`, the conversational intro flows and the user drives from there - do NOT layer another "Ready?" prompt on top of the intro. `n` stops the skill; `skip` marks the module done and moves to the next one.
 
 ---
 
