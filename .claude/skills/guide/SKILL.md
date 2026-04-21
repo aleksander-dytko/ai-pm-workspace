@@ -107,9 +107,11 @@ Every module follows the same shape:
 
 - Module N of 8, title, rough time (~5-10 min).
 - One-line hook: what the user will walk away with.
-- The sample file that goes with this module (exact path) - invite the user to open it and skim. Mention that in Claude Code they can type `@` to get a file-picker autocomplete (e.g. `@samples/sample-meeting-transcript.md`) if they want to attach the file reference instead of typing the path.
-- How they can run the skill: tell them the exact command (e.g. `/meeting samples/sample-meeting-transcript.md`), and say they can either run it themselves or ask you to run it for them.
+- The sample file that goes with this module (exact path, **always backtick-wrapped** like `` `samples/sample-meeting-transcript.md` ``) - invite the user to open it and skim. Mention that in Claude Code they can type `@` to get a file-picker autocomplete.
+- How they can run the skill: tell them the exact command using `@`-prefixed paths (e.g. `/meeting @samples/sample-meeting-transcript.md`) so Claude Code treats the path as an attached file. Say they can either run it themselves or ask you to run it for them.
 - **A short "in real work" note** - how the user would use this skill with their own data, not the sample. The shape of this note depends on the skill: for file-based skills (`/meeting`, `/create-epic`, `/competitive-research`) list the input options (existing file, browse, paste). For ritual skills (`/today morning/evening`, `/weekly-plan`) describe what the user provides when they're doing it for real (a calendar screenshot, honest mood/energy, their actual tasks). For context-pulling skills (`/decision`, `/communicate`) describe what the user pastes or references.
+
+**File-reference rule for all intro/outro/recap prose**: every vault path you mention (`Dashboard/tasks.md`, `Meetings/...`, `samples/...`, `journals/...`, etc.) must be wrapped in backticks so Claude Code renders it as a clickable file reference. Raw paths without backticks render as plain text and can't be opened. Commands referencing a file argument must use `@path` so the file autocomplete kicks in.
 
 Example of the tone (do not copy verbatim - write it fresh for each module):
 
@@ -119,7 +121,7 @@ Example of the tone (do not copy verbatim - write it fresh for each module):
 >
 > The sample transcript lives at `samples/sample-meeting-transcript.md` - open it if you want to see the kind of input `/meeting` handles.
 >
-> When you're ready, run `/meeting samples/sample-meeting-transcript.md` yourself, or just tell me "run it" and I'll invoke it for you. Either way, the skill will ask you to confirm before writing any tasks.
+> When you're ready, run `/meeting @samples/sample-meeting-transcript.md` yourself (the `@` gives you Claude Code's file autocomplete), or just tell me "run it" and I'll invoke it for you. Either way, the skill will ask you to confirm before writing any tasks.
 
 Then wait. Don't ask "Ready? (y/n/skip)" - that's script-like. The module starts when the user either runs the command themselves or tells you to. If they ask to skip, mark it done and move on. If they say "stop" or "later", stop and exit the skill.
 
@@ -153,7 +155,7 @@ After the recap, update `.claude/memory/guide-progress.md` to mark the module do
 
 **How the module runs** (write this to the user conversationally, do NOT copy the numbered list below):
 
-The sample transcript already lives at `samples/sample-meeting-transcript.md`. Point the user at it and invite them to open/skim it first if they want to see the kind of input `/meeting` handles. Then tell them they can either run `/meeting samples/sample-meeting-transcript.md` themselves, or say "run it" and you'll invoke it for them. When the skill asks to confirm tasks, the user says y/n themselves - don't answer on their behalf.
+The sample transcript already lives at `samples/sample-meeting-transcript.md`. Point the user at it and invite them to open/skim it first if they want to see the kind of input `/meeting` handles. Then tell them they can either run `/meeting @samples/sample-meeting-transcript.md` themselves (the `@` opens Claude Code's file autocomplete), or say "run it" and you'll invoke it for them. When the skill asks to confirm tasks, the user says y/n themselves - don't answer on their behalf.
 
 **Before you hand off to `/meeting`, tell the user in one short paragraph how they'd use this skill with their own meetings in real work.** Include the three real-world input options: (a) `/meeting path/to/your-notes.md` to process a file they've already saved (e.g. from Granola, a transcript export, or Obsidian notes), (b) just `/meeting` with no argument to browse and pick from recent unprocessed files in `Meetings/`, or (c) `/meeting` followed by pasting the raw transcript directly into the chat. This is the bit the sample can't teach on its own.
 
@@ -251,7 +253,7 @@ Then print the end-of-module recap block.
 **Try this**:
 
 1. Read `samples/sample-epic-idea.md` - a raw idea from a CSM kickoff meeting.
-2. Run: `/create-epic samples/sample-epic-idea.md`
+2. Run: `/create-epic @samples/sample-epic-idea.md`
 3. Answer the 3-5 clarifying questions (target persona, metric, initiative fit, etc.). If you don't know, say so honestly - the skill will mark those sections accordingly.
 4. Review the draft the skill produces.
 
@@ -277,7 +279,7 @@ Then print the end-of-module recap block.
 **Try this**:
 
 1. Read `samples/sample-competitor-prompt.md` - a research prompt about how competitors handle first-time user onboarding.
-2. Run: `/competitive-research samples/sample-competitor-prompt.md`
+2. Run: `/competitive-research @samples/sample-competitor-prompt.md`
 3. Confirm the competitor set the skill suggests (or adjust).
 4. The skill will gather observations from public sources and build a matrix.
 5. Review the matrix and the synthesis paragraphs below it.
@@ -301,7 +303,7 @@ Then print the end-of-module recap block.
 
 **Try this**:
 
-1. Run: `/meeting samples/sample-capstone-meeting.md`
+1. Run: `/meeting @samples/sample-capstone-meeting.md`
 
    Watch the skill produce a structured meeting note. The meeting has a real contentious item: whether the billing UI revamp should include a full self-service invoice portal or just fix the top-5 complaints.
 
