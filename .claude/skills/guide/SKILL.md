@@ -154,6 +154,8 @@ After the recap, update `.claude/memory/guide-progress.md` to mark the module do
 
 The sample transcript already lives at `samples/sample-meeting-transcript.md`. Point the user at it and invite them to open/skim it first if they want to see the kind of input `/meeting` handles. Then tell them they can either run `/meeting samples/sample-meeting-transcript.md` themselves, or say "run it" and you'll invoke it for them. When the skill asks to confirm tasks, the user says y/n themselves - don't answer on their behalf.
 
+**Before you hand off to `/meeting`, tell the user in one short paragraph how they'd use this skill with their own meetings in real work.** Include the three real-world input options: (a) `/meeting path/to/your-notes.md` to process a file they've already saved (e.g. from Granola, a transcript export, or Obsidian notes), (b) just `/meeting` with no argument to browse and pick from recent unprocessed files in `Meetings/`, or (c) `/meeting` followed by pasting the raw transcript directly into the chat. This is the bit the sample can't teach on its own.
+
 **See the artifact**:
 - A new file in `Meetings/` named `2026-04-XX - [title].md` (or similar) with structured sections.
 - A new task in `Dashboard/tasks.md` under "This week" sourced from the meeting.

@@ -25,8 +25,8 @@ The skill operates in one of three modes based on `$ARGUMENTS`:
 ### Step 0: Determine mode and get raw notes
 
 **If no arguments (Browse mode)**:
-1. List files in `Meetings/` folder, sorted by date (newest first).
-2. Check each file's content - identify files with raw/unstructured notes (no "## Decisions", no structured format).
+1. Use the `Glob` tool with pattern `Meetings/*.md` to list meeting files. Do NOT use `Bash ls` - Glob is quieter and shows results already sorted.
+2. Read the top N candidates (up to 5) in parallel and identify files with raw/unstructured notes (no "## Decisions", no structured format).
 3. Show a numbered list of unprocessed files.
 4. Ask: "Which meeting do you want to process?"
 
@@ -107,25 +107,30 @@ Priority and due date are optional - include only when meaningful.
 
 ## Output Format
 
-```
-✅ Meeting note created: [[YYYY-MM-DD - Meeting Title]]
-✅ Linked in journal: [[DD-MM-YYYY]]
+When reporting results to the user in chat, reference files with **backtick-wrapped paths**, not markdown links with spaces and not `[[wikilinks]]`. Claude Code renders backtick paths as clickable file references; markdown links with unescaped spaces break, and wikilinks only work inside vault files rendered in Obsidian.
 
-📋 Proposed tasks for Dashboard/tasks.md (your action items only):
+In chat:
+
+```
+Meeting note created: `Meetings/YYYY-MM-DD - Meeting Title.md`
+Linked in journal: `journals/YYYY/MM-Month/DD-MM-YYYY.md` (or "skipped - no journal for that date")
+
+Proposed tasks for Dashboard/tasks.md (your action items only):
 1. [Task] - due YYYY-MM-DD - P2
 2. [Task] - P3
 
-⏭️ Already in Dashboard/tasks.md (skipping):
+Already in Dashboard/tasks.md (skipping):
 - [Existing task]
 
-ℹ️ Tasks for others (not added to your list):
+Tasks for others (not added to your list):
 - [Task] - [Person]
 
----
-Confirm: Add tasks to Dashboard/tasks.md? (Y/N or select which)
+Confirm: add tasks to Dashboard/tasks.md? (Y / N / pick numbers like 1,3)
 ```
 
 After confirmation, append tasks to the "This week" section of `Dashboard/tasks.md`.
+
+**Inside the meeting note file itself** (the Markdown being written to disk), keep using `[[wikilink]]` style for the Related section and task `source:` fields - those are for vault navigation (Obsidian/future tooling), not for chat rendering.
 
 ---
 
