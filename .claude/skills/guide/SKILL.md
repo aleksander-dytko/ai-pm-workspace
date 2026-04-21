@@ -82,31 +82,27 @@ Answers at a "Ready?" gate:
 ## First-run orientation block (print verbatim)
 
 ```
-Welcome to /guide - an interactive tour of the shipped skills.
+Welcome to **/guide** - an interactive tour of the shipped skills.
 
-What this is:
-- 8 short modules, each teaching one skill by running it against sample data in `samples/`.
-- Designed over days, not one sitting. 1-2 modules per session. ~5-10 minutes per module.
-- Progress is saved in `.claude/memory/guide-progress.md` so you can stop and resume.
-- Your role from `CLAUDE.md` adapts the framing (PM / designer / analyst / engineer).
+**What this is**: 8 short modules (~5-10 min each), one per shipped skill, run against sample data in `samples/`. Do 1-2 per session over days, not all at once. Progress is saved in `.claude/memory/guide-progress.md`, so you can stop and resume. The framing adapts to the role set in `CLAUDE.md`.
 
-The 8 modules:
-1. `/meeting`                   - raw meeting notes to structured note + tasks
-2. `/today morning`             - daily planning (mood, energy, focus items)
-3. `/decision`                  - document a product decision with options + trade-offs
-4. `/communicate`               - draft a Slack / email / async update
-5. `/create-epic`               - raw idea to structured epic draft
-6. `/competitive-research`      - build a sourced competitive matrix
-7. Capstone                     - chain `/meeting` then `/decision` then `/communicate`
-8. Extend your workspace        - run `/opportunity-solution-tree`, add or write new skills
+**The 8 modules**:
+1. `/meeting` - raw meeting notes to structured note + tasks
+2. `/today morning` - daily planning (mood, energy, focus items)
+3. `/decision` - document a product decision with options + trade-offs
+4. `/communicate` - draft a Slack / email / async update
+5. `/create-epic` - raw idea to structured epic draft
+6. `/competitive-research` - build a sourced competitive matrix
+7. Capstone - chain `/meeting` then `/decision` then `/communicate`
+8. Extend your workspace - run `/opportunity-solution-tree`, add or write more skills
 
-How to use:
-- `/guide`           continue / resume (or start at Module 1 the first time)
-- `/guide next`      go to the next uncompleted module (no confirmation needed)
-- `/guide <n>`       jump to a specific module (e.g. `/guide 3`)
-- `/guide reset`     wipe progress and start over
+**Commands**:
+- `/guide` - continue / resume (or start at Module 1 the first time)
+- `/guide next` - go to the next uncompleted module (no confirmation)
+- `/guide <n>` - jump to a specific module (e.g. `/guide 3`)
+- `/guide reset` - wipe progress and start over
 
-At a "Ready?" gate: `y` start, `n` stop, `skip` mark done and move on.
+**At a "Ready?" gate**: `y` start, `n` stop, `skip` mark done and move on.
 
 Ready to start Module 1? (y/n/skip)
 ```
