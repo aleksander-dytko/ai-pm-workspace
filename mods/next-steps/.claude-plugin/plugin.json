@@ -1,0 +1,22 @@
+{
+  "name": "next-steps",
+  "version": "1.0.0",
+  "description": "Three follow-up chips above the prompt after every answer, suggested by a small model. Click one to send it.",
+  "license": "MIT",
+  "keywords": ["productivity", "prompts", "suggestions", "mod"],
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "model": {
+      "type": "string",
+      "title": "Suggestion model",
+      "description": "The model that writes the chips. A small, fast one keeps cost and delay low.",
+      "default": "haiku"
+    },
+    "minAnswerLength": {
+      "type": "number",
+      "title": "Minimum answer length",
+      "description": "Answers shorter than this many characters get no chips.",
+      "default": 40
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "name": "end-of-work",
+  "version": "1.0.0",
+  "description": "A band above the prompt that warns you before your closing time and tells you, once it has passed, how far past it you are. Reads today's closing time from your daily note when it has one.",
+  "license": "MIT",
+  "keywords": ["productivity", "focus", "workday", "mod"],
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "closeAt": {
+      "type": "string",
+      "title": "Closing time",
+      "description": "When your workday ends, HH:MM (24h). A closing time in today's daily note wins over this.",
+      "default": "18:00"
+    },
+    "headsUpMinutes": {
+      "type": "number",
+      "title": "Heads-up minutes",
+      "description": "How many minutes before closing time the quiet reminder appears.",
+      "default": 15
+    },
+    "weekdaysOnly": {
+      "type": "boolean",
+      "title": "Weekdays only",
+      "description": "Stay silent on Saturdays and Sundays.",
+      "default": true
+    },
+    "timezone": {
+      "type": "string",
+      "title": "Time zone",
+      "description": "An IANA time zone such as America/New_York. Empty uses this computer's local time.",
+      "default": ""
+    },
+    "workspace": {
+      "type": "string",
+      "title": "Workspace folder",
+      "description": "Absolute path of the folder that holds your daily notes. Empty uses the folder Claude Code was started in.",
+      "default": ""
+    },
+    "journalFolder": {
+      "type": "string",
+      "title": "Daily notes folder",
+      "description": "Folder inside the workspace where daily notes live, as <folder>/YYYY/MM-Month/DD-MM-YYYY.md.",
+      "default": "journals"
+    }
+  }
+}
