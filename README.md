@@ -224,6 +224,20 @@ To add another phuryn skill to your workspace, copy its folder into `.claude/ski
 
 This template keeps tasks in-repo (`Dashboard/tasks.md`) so you can start without any external tool. If you want Todoist sync later, see [docs/todoist-sync.md](docs/todoist-sync.md).
 
+## Mods
+
+Optional Claude Code mods that put your plan where you work: a closing-time band, follow-up chips and a weekly focus pane. Install the ones you want:
+
+```
+/plugin marketplace add aleksander-dytko/ai-pm-workspace
+/plugin install end-of-work@ai-pm-workspace
+/plugin install next-steps@ai-pm-workspace
+/plugin install weekly-focus@ai-pm-workspace
+/reload-plugins
+```
+
+Settings and details: [`mods/README.md`](mods/README.md). Mods run with your permissions - read the code before installing.
+
 ## Philosophy
 
 Three principles:

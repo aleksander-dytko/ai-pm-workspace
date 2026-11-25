@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.3 - Claude Code mods (2026-11-25)
+
+Three optional mods - plugins that change how Claude Code looks and behaves - installable from this repo as a plugin marketplace.
+
+- **New**: `end-of-work` - a band above the prompt before and after your closing time (setting `closeAt`, or a `Closing the laptop: 17:30` line in today's daily note), with a "Hide today" button.
+- **New**: `next-steps` - three follow-up suggestions above the prompt after every answer, written by a small model; click one to send it.
+- **New**: `weekly-focus` - a side pane with today's tasks (Todoist when connected, otherwise `Dashboard/tasks.md`) and this week's priorities from `Dashboard/Weekly P-Tasks.md`.
+- **New**: `.claude-plugin/marketplace.json` so `/plugin marketplace add aleksander-dytko/ai-pm-workspace` works. Details in `mods/README.md`.
+
 ## v2.2 - `/report` skill (2026-04-20)
 
 One new skill, two doc fixes.

@@ -1,0 +1,30 @@
+{
+  "name": "ai-pm-workspace",
+  "owner": { "name": "Aleksander Dytko" },
+  "metadata": {
+    "description": "Claude Code mods from the AI PM workspace: a closing-time band, follow-up chips and a weekly focus pane."
+  },
+  "plugins": [
+    {
+      "name": "end-of-work",
+      "source": "./mods/end-of-work",
+      "description": "A band above the prompt that warns you before your closing time and tells you how far past it you are.",
+      "version": "1.0.0",
+      "license": "MIT"
+    },
+    {
+      "name": "next-steps",
+      "source": "./mods/next-steps",
+      "description": "Three follow-up chips above the prompt after every answer; click one to send it.",
+      "version": "1.0.0",
+      "license": "MIT"
+    },
+    {
+      "name": "weekly-focus",
+      "source": "./mods/weekly-focus",
+      "description": "A side pane with today's tasks (Todoist or tasks.md) and this week's priorities.",
+      "version": "1.0.0",
+      "license": "MIT"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "name": "weekly-focus",
+  "version": "1.0.0",
+  "description": "A side pane with today's tasks (Todoist, or a local tasks.md) and this week's priorities from a markdown file. Tick a task to complete it, with a 15-second undo.",
+  "license": "MIT",
+  "keywords": ["productivity", "planning", "tasks", "todoist", "mod"],
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "workspace": {
+      "type": "string",
+      "title": "Workspace folder",
+      "description": "Absolute path of the folder holding your notes. Empty uses the folder Claude Code was started in.",
+      "default": ""
+    },
+    "weeklyPriorities": {
+      "type": "string",
+      "title": "Weekly priorities file",
+      "description": "Markdown file with the week's P1-P5 priorities, relative to the workspace.",
+      "default": "Dashboard/Weekly P-Tasks.md"
+    },
+    "tasksFile": {
+      "type": "string",
+      "title": "Tasks file",
+      "description": "Markdown task list used when Todoist is not connected, relative to the workspace.",
+      "default": "Dashboard/tasks.md"
+    },
+    "todoistServer": {
+      "type": "string",
+      "title": "Todoist MCP server",
+      "description": "Name of the Todoist MCP server as /mcp lists it. Empty always uses the tasks file.",
+      "default": "todoist"
+    },
+    "journalFolder": {
+      "type": "string",
+      "title": "Daily notes folder",
+      "description": "Folder inside the workspace where daily notes live, as <folder>/YYYY/MM-Month/DD-MM-YYYY.md.",
+      "default": "journals"
+    },
+    "timezone": {
+      "type": "string",
+      "title": "Time zone",
+      "description": "An IANA time zone such as America/New_York, used to decide what 'today' is. Empty uses this computer's local time.",
+      "default": ""
+    },
+    "openOnStart": {
+      "type": "boolean",
+      "title": "Open on start",
+      "description": "Open the pane when a session starts. Off, open it with /weekly-focus.",
+      "default": true
+    }
+  }
+}
